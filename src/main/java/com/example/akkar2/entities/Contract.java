@@ -13,20 +13,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+
 public class Contract implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcontract")
     private int id;
 
     private boolean contractStatus;
     @Lob
+    @JsonIgnore
     private byte[] firstSignature;
     @Lob
+    @JsonIgnore
     private byte[] secondSignature;
+    @Temporal(TemporalType.DATE)
     private Date dateofSignature;
     @Enumerated(EnumType.STRING)
     private ContractType typeContract;
