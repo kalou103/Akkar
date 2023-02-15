@@ -30,10 +30,15 @@ public class ContractService implements  IContractService {
             ContractRepo.deleteById(id);
         }
 
-        @Override
+    @Override
+    public Contract updateContract(Contract c) {
+        return null;
+    }
+
+    /*   @Override
         public Contract updateContract(Contract c) {
             return ContractRepo.save(c);
-        }
+        }*/
 
     }
 
