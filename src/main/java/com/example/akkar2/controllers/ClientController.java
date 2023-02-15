@@ -1,7 +1,6 @@
 package com.example.akkar2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import com.example.akkar2.entities.Client;
 import com.example.akkar2.services.IClientService;
@@ -12,7 +11,6 @@ import java.util.List;
 @RequestMapping("/Client")
 public class ClientController {
 
-    @Qualifier("")
     @Autowired
     IClientService UserService;
 
