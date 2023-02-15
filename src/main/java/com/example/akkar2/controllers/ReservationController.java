@@ -12,7 +12,12 @@ import java.util.List;
 public class ReservationController {
     @Autowired
     ReservationService reservationService;
-
+    @PostMapping("/add-Reservation")
+    @ResponseBody
+    public Reservation AddReservation(@RequestBody Reservation r)
+    {
+        return reservationService.addReservation(r);
+    }
 
     @GetMapping("/retrieveAllReservations")
     @ResponseBody
