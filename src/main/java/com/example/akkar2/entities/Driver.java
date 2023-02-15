@@ -15,15 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@DiscriminatorValue("D")
 
-public class Driver implements Serializable {
+public class Driver extends User implements Serializable {
 
     // Basic For All users
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idDriver")
-    private int idDriver;
 
     @Column(nullable = false)
     private int phoneNumber;
