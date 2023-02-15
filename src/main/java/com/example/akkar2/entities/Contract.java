@@ -17,7 +17,8 @@ import java.util.List;
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-@JsonIgnore
+    private int id;
+
     private boolean contractStatus;
     @Lob
     @JsonIgnore
@@ -26,10 +27,8 @@ public class Contract implements Serializable {
     @JsonIgnore
     private byte[] secondSignature;
     @Temporal(TemporalType.DATE)
-    @JsonIgnore
     private Date dateofSignature;
     @Enumerated(EnumType.STRING)
-    @JsonIgnore
     private ContractType typeContract;
     private String description;
     @ManyToMany(mappedBy="contracts", cascade = CascadeType.ALL)
