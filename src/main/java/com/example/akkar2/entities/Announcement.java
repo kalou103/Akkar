@@ -33,7 +33,6 @@ public class Announcement implements Serializable {
 	@Column(nullable = false)
 	private int numberofrates  ;
 
-	
 	@ManyToOne
 	@JsonIgnore
 	private Client client ;
