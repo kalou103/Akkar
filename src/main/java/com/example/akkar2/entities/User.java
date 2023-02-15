@@ -7,7 +7,6 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -84,12 +83,15 @@ public abstract class User implements Serializable{
 	private List<Command> Commands;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+	@JsonIgnore
 	private List<Furniture> furniture;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+	@JsonIgnore
 	private List<Post> posts;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+	@JsonIgnore
 	private List<Comment> comment;
 
 }
