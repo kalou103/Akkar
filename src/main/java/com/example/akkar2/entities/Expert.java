@@ -1,10 +1,9 @@
 package com.example.akkar2.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -17,10 +16,6 @@ import java.util.Set;
 @DiscriminatorValue("E")
 
 public class Expert extends User  implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idExpert")
-    private int id;
 
     private long cin ;
 
