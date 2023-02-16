@@ -1,6 +1,6 @@
 package com.example.akkar2.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
