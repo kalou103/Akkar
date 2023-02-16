@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

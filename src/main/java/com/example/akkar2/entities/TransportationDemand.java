@@ -1,11 +1,10 @@
 package com.example.akkar2.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 @Entity
