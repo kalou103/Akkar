@@ -37,9 +37,11 @@ public class Furniture implements Serializable {
     @OneToOne(mappedBy = "furniture")
     private Command command;
     //l'utilisateur owner du furniture
+    @JsonIgnore
     @OneToMany
             (cascade = CascadeType.ALL, mappedBy="furniture")
     private List<Discount> discounts;
+    @JsonIgnore
     @ManyToOne
     private User user;
 
