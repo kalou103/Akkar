@@ -26,7 +26,7 @@ public class Command  implements Serializable {
     Date commandDate;
     Double totalPrice;
     Boolean payementStatus;
-
+   @JsonIgnore
     @OneToOne
     private Furniture furniture;
    // OneToMany(mappedBy="")
