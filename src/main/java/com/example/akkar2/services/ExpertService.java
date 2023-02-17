@@ -12,30 +12,31 @@ public class ExpertService implements IExpertService{
     @Autowired
     ExpertRepository ExpertRepository;
 
+
     @Override
-    public Expert addUser(Expert expert) {
+    public Expert AddExpert(Expert expert) {
+        return ExpertRepository.save(expert);
+    }
+
+    @Override
+    public List<Expert> ShowAllExperts() {
+        return ExpertRepository.findAll();
+    }
+
+    @Override
+    public void DeleteExpertByCin(Long cin) {
+        ExpertRepository.deleteByCinLike(cin);
+    }
+
+    @Override
+    public Expert updateExpert(Expert expert) {
         ExpertRepository.save(expert);
         return expert;
     }
 
     @Override
-    public List<Expert> retrieveAllExpert() {
-        return (List<Expert>) ExpertRepository.findAll();
-    }
-    @Override
-    public Expert retrieveExpert(int id) {
-        return  ExpertRepository.findById(id).orElse(new Expert());
-    }
-
-    @Override
-    public void removeExepert(int id) {
+    public void DeleteExpertById(int id) {
         ExpertRepository.deleteById(id);
     }
-
-    @Override
-    public Expert updateExpert(Expert e) {
-        return ExpertRepository.save(e);
-    }
-
 
 }
