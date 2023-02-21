@@ -1,13 +1,9 @@
 package com.example.akkar2.repository;
 
-import com.example.akkar2.entities.Papers;
+import com.example.akkar2.entities.LoanPapers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-
 @Repository
-public interface PapersRepository extends JpaRepository<Papers, Long> {
-
+public interface LoanPapersRepository  extends JpaRepository<LoanPapers, Integer> {
 }
