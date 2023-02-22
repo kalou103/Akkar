@@ -28,9 +28,10 @@ RealEstateController {
 			@RequestParam("rooms") int rooms, @RequestParam("floors") int floors,
 			@RequestParam("description") String description) throws IOException {
 
-// besh najém ndakhél l'image
-		// ajout bsh najémou ndakhlou beha l'image
+          // besh najém ndakhél l'image
+		 // ajout bsh najémou ndakhlou beha l'image
 		// instance bsh naatihum les attributs mta3éna
+
 		RealEstate newRealEstate = new RealEstate();
 		newRealEstate.setLocation(location);
 		newRealEstate.setPictures(pictures.getBytes());
