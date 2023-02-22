@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,27 +23,22 @@ import java.util.List;
 public class Papers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpapers")
+    Long id ;
 
     private String title;
 
     private String description;
-@JsonIgnore
-    @OneToMany(mappedBy = "papers", cascade = CascadeType.ALL)
-    private List<LoanPapers> LoanPics;
-
+    @OneToMany(mappedBy = "papers")
     @JsonIgnore
-    @OneToMany(mappedBy = "papers", cascade = CascadeType.ALL)
-    private List<AuthentificationCertificate> AuthPics;
+    private List<LoanPapers> loanPapers = new ArrayList<>();
 
+    @OneToMany
+     @JsonIgnore
+    private List<CertificateOfOwnership> ownership = new ArrayList<>();
+
+    @OneToMany
     @JsonIgnore
-    @OneToMany(mappedBy = "papers", cascade = CascadeType.ALL)
-    private List<CertificateOfOwnership> OwnPics;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "papers", cascade = CascadeType.ALL)
-    private List<RealEstatesFees> FeesPics;
-
+    private List<RealEstatesFees> fees = new ArrayList<>();
 
     @OneToOne(mappedBy = "paper")
     @JsonIgnore

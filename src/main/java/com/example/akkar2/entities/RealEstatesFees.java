@@ -16,8 +16,6 @@ public class RealEstatesFees {
     private Long id;
 
     private String imageName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paper_id")
+    @ManyToOne
     private Papers papers;
 }

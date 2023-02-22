@@ -1,10 +1,17 @@
 package com.example.akkar2.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+
+import static javax.persistence.FetchType.LAZY;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,24 +19,30 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @ToString
+@Data
 public class Comment {
 
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long CommentID;
+        Long commentId;
+        @NotNull
+        String comment;
+        Integer voteCount;
+    @CreationTimestamp
+     Date dateCommented;
 
-        String text;
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "uid", referencedColumnName = "id")
 
-        @Temporal(TemporalType.DATE)
-        Date date;
-        Integer likes;
-        @ManyToOne
-        private User user;
+    User user;
 
-    @ManyToOne
-    private Post post;
-        //Les commandes lier a cet furniture
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "postId", referencedColumnName = "postId")
+
+    Post post;
 
 
 

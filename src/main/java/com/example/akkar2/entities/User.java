@@ -28,14 +28,14 @@ public abstract class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "iduser")
-	private int id;
+	@Column(name = "id")
+	private Long id;
 	
 	@Column(nullable = false)
 	private String firstname ;
-	
+
 	@Column(nullable = false)
-	private String lastname ; 
+	private String lastname ;
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -86,9 +86,11 @@ public abstract class User implements Serializable{
 	@JsonIgnore
 	private List<Furniture> furniture;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "postId", referencedColumnName = "postId")
 	@JsonIgnore
-	private List<Post> posts;
+	private Post post;
+
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnore

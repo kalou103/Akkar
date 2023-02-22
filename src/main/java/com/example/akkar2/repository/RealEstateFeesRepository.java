@@ -1,9 +1,9 @@
 package com.example.akkar2.repository;
 
-import com.example.akkar2.entities.CertificateOfOwnership;
+import com.example.akkar2.entities.RealEstatesFees;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CertificateOfOwnershipRepository  extends JpaRepository<CertificateOfOwnership, Integer> {
+public interface RealEstateFeesRepository extends JpaRepository<RealEstatesFees, Long> {
 }
