@@ -11,5 +11,7 @@ public interface IExpertService {
     public void DeleteExpertByCin(Long cin);
     public Expert updateExpert(Expert expert);
     public void DeleteExpertById(int id);
+    public List<Expert> findAllExpertByLoaction(String Location);
+
 
 }

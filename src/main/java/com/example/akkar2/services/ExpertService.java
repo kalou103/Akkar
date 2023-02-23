@@ -33,10 +33,21 @@ public class ExpertService implements IExpertService{
         ExpertRepository.save(expert);
         return expert;
     }
-
     @Override
     public void DeleteExpertById(int id) {
         ExpertRepository.deleteById(id);
     }
+
+    @Override
+    public List<Expert> findAllExpertByLoaction(String Location) {
+        return ExpertRepository.findByExpertLocation(Location);
+    }
+
+
+
+    /*public List<Expert> getExpertsByRealEstateLocation(Long realEstateId) {
+        return ExpertRepository.findAllByRealEstateLocation(realEstateId);
+    }*/
+
 
 }

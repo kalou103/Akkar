@@ -26,6 +26,7 @@ public class Expert extends User  implements Serializable {
     private  double expertPrice;
 
     private  String expertLocation;
+    public boolean staus;
 
     private  String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="expert")
@@ -34,5 +35,6 @@ public class Expert extends User  implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="expert")
     @JsonIgnore
     private Set<ExpertAppointment> expertAppointments;
+
 
 }

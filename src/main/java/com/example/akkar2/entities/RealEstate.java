@@ -19,7 +19,7 @@ public class RealEstate implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRealEstate;
 
-    @Column(nullable = false)
+
     private String location;
     @Lob
     @Column(nullable = false)
