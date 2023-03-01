@@ -10,12 +10,13 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-public class
-RealEstateController {
+public class RealEstateController {
 	@Autowired
 	IRealEstateService iRealEstate;
 	@Autowired
@@ -27,10 +28,6 @@ RealEstateController {
 			@RequestParam("services") String services, @RequestParam("surface") int surface,
 			@RequestParam("rooms") int rooms, @RequestParam("floors") int floors,
 			@RequestParam("description") String description) throws IOException {
-
-          // besh najém ndakhél l'image
-		 // ajout bsh najémou ndakhlou beha l'image
-		// instance bsh naatihum les attributs mta3éna
 
 		RealEstate newRealEstate = new RealEstate();
 		newRealEstate.setLocation(location);
@@ -56,8 +53,8 @@ RealEstateController {
 	}
 
 	@GetMapping("/getAll")
-	public List<RealEstate> getAllRealEstates() {
-		return iRealEstate.getAllRealEstates();
+	public Page<RealEstate> getAllRealEstates(Pageable pageable) {
+		return iRealEstate.getAllRealEstates(pageable);
 	}
 
 	@GetMapping("/get/{id}")

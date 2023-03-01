@@ -18,10 +18,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-
 @Inheritance(strategy= InheritanceType.JOINED)
-@DiscriminatorColumn(name="user_type")
-public abstract class User implements Serializable{
+//@DiscriminatorColumn(name="user_type")
+public class User implements Serializable{
 
 	
 	// Basic For All users 
@@ -93,6 +92,10 @@ public abstract class User implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnore
 	private List<Comment> comment;
+	@ManyToMany
+	private List<Favorite> favorites;
+	@OneToMany(mappedBy = "realEstate" , cascade = CascadeType.ALL)
+	private List<Rating> ratings;
 	
 
 }

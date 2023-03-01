@@ -23,8 +23,8 @@ public class RealEstate implements Serializable {
     private String location;
     @Lob
     private byte[] pictures;
-// lazermni nvérifi mel type d'image
-
+   private double pricePerNight;
+// A verifier le type des images
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RealEstateType type;
@@ -52,5 +52,8 @@ public class RealEstate implements Serializable {
     @OneToMany(mappedBy = "realEstate")
     @JsonIgnore
     private  List<Reservation> reservations;
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+    
 
 }

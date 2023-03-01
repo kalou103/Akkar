@@ -21,9 +21,17 @@ public interface IAnnouncementService {
 
 	List<Announcement> getByAnnouncementType(AnnouncementType announcementType);
 
-	List<Announcement> getByRate(double rate);
+	
 
 	List<Announcement> getByPrice(double price);
 
 	List<Announcement> getLowerPrice(double price);
+
+	
+
+	List<Announcement> getSimilarAnnouncements(Long id);
+	
+	
+
+	List<Announcement> getAnnouncementsByAverageRatingGreaterThan(int ratingThreshold);
 }

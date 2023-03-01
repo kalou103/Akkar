@@ -28,10 +28,7 @@ public class Announcement implements Serializable {
 	private double  price ;
 	@Column(nullable = false)
 	private String description ;
-	@Column(nullable = false)
-	private double rate ;
-	@Column(nullable = false)
-	private int numberofrates;
+	
 
 	@ManyToOne
 	@JsonIgnore
@@ -42,5 +39,6 @@ public class Announcement implements Serializable {
 	@OneToMany(mappedBy ="announcement")
 	@JsonIgnore
 	private List<Reclamation> reclamation;
-
+   
+	
 }

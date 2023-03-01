@@ -24,4 +24,9 @@ public interface RealEstateRepository extends JpaRepository<RealEstate, Long> {
 	
 	@Query("SELECT r From RealEstate r Join r.announcement WHERE r.type=:type And r.announcement.announcementType=:announcementType")
 	List<RealEstate> findByRealEsAndAnnou(@Param("type") RealEstateType type ,@Param("announcementType") AnnouncementType announcementType );
+	
+	@Query("SELECT Count(R) FROM Rating R Where R.realEstate.idRealEstate=:idRealEstate")
+    int nbrRating(@Param("idRealEstate") Long iidRealEstate);	
+	
+
 }

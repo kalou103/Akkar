@@ -3,20 +3,22 @@ package com.example.akkar2.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.akkar2.entities.AnnouncementType;
 import com.example.akkar2.entities.RealEstate;
 import com.example.akkar2.entities.RealEstateType;
 
-public interface
-IRealEstateService {
+public interface IRealEstateService {
 
-	public RealEstate ajouter_realEstate(RealEstate Re);
+	public RealEstate addRealEstate(RealEstate Re);
 
 	public void delete_realEstate(Long id);
 
 	RealEstate updateRealEstate(RealEstate Res);
 
-	public List<RealEstate> getAllRealEstates();
+	public Page<RealEstate> getAllRealEstates(Pageable pageable);
 
 	public RealEstate getRealEstate(Long id);
 

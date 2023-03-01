@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -24,7 +26,7 @@ public class RealEstateService implements IRealEstateService {
     AnnouncementRepository announcementRepository;
 
     @Override
-    public RealEstate ajouter_realEstate(RealEstate Re) {
+    public RealEstate addRealEstate(RealEstate Re) {
         return realEstateRepository.save(Re);
         
     }
@@ -41,10 +43,13 @@ public class RealEstateService implements IRealEstateService {
         return realEstateRepository.save(Res);
     }
 
+
+
 	@Override
-	public List<RealEstate> getAllRealEstates() {
-		// TODO Auto-generated method stub
-		return realEstateRepository.findAll();
+	public Page<RealEstate> getAllRealEstates(Pageable pageable) {
+		// kol page mahtout feha 5 size taaeha yet9assmu baaed
+		pageable=Pageable.ofSize(5);
+		return realEstateRepository.findAll(pageable);
 	}
 
 	@Override
@@ -96,6 +101,7 @@ public class RealEstateService implements IRealEstateService {
 		Announcement Ann=announcementRepository.findById(idA).get();
 		RealEstate Re=realEstateRepository.findById(idR).get();
 		Re.setAnnouncement(Ann);
+
 		realEstateRepository.save(Re);
 		
 	}
