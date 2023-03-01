@@ -1,16 +1,17 @@
 package com.example.akkar2.controllers;
 
 import com.example.akkar2.entities.LoanPapers;
+import com.example.akkar2.entities.Papers;
+import com.example.akkar2.repository.LoanPapersRepository;
 import com.example.akkar2.repository.PapersRepository;
 import com.example.akkar2.services.LoanService;
 import com.example.akkar2.services.PapersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,16 +22,34 @@ public class LoanController {
 
         @Autowired
         LoanService loanService;
+        LoanPapersRepository loanPapersRepo;
+        PapersRepository papersRepo;
         PapersService pService;
         PapersRepository paperRepo;
-        @PostMapping("/Add-LoanPapers")
+        @PostMapping("/Add-LoanPapers/{papersid}")
         @ResponseBody
-        public ResponseEntity<?> addLoanPapers( @RequestParam("file") MultipartFile file) {
+        public LoanPapers addRealEstate(
+                                        @RequestParam("pictures") MultipartFile pictures,
+                                        @PathVariable("papersid") Long papersid
+                                   ) throws IOException {
+           Papers p =
+                    papersRepo.findPapersById(papersid);
+            LoanPapers loan = new LoanPapers();
+
+            loan.setImages(pictures.getBytes());
+            loan.setPapers(p);
+            return loanPapersRepo.save(loan);
+
+        }
+
+            // besh najém ndakhél l'image
+            // ajout bsh najémou nd
+      /*  public ResponseEntity<?> addLoanPapers( @RequestParam("file") MultipartFile file) {
             LoanPapers fee =new LoanPapers();
-            String fileName = file.getOriginalFilename();
+            byte[] fileName = file.getOriginalFilename().getBytes();
             try {
                 file.transferTo( new File("images" + fileName));
-                fee.setImageName(fileName);
+                fee.setImages(fileName);
                 loanService.addLoanPapers(fee);
 
             } catch (Exception e) {
@@ -38,7 +57,7 @@ public class LoanController {
             }
             return ResponseEntity.ok("File uploaded successfully.");
 
-        }
+        }*/
 
         @GetMapping("/GetAllLoanPapers")
         public List<LoanPapers> getLoanPapers() {

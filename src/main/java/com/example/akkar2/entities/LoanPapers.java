@@ -13,12 +13,11 @@ import javax.persistence.*;
 @Table(name = "LoanPapers")
 public class LoanPapers {
 
-
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-
-        private String imageName;
+        @Lob
+        private byte[] images;
         @ManyToOne
         private Papers papers;
 

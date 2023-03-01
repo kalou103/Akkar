@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface PapersRepository extends JpaRepository<Papers, Long> {
     Optional<Papers> findById(Long id);
+    Papers findPapersById(Long id);
 
 }

@@ -13,8 +13,6 @@ public class LoanService implements ILoanPapers {
         LoanPapersRepository LoanRepo;
         @Override
         public LoanPapers addLoanPapers(LoanPapers p) {
-
-
             return LoanRepo.save(p) ;
         }
 

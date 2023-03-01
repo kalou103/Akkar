@@ -1,9 +1,13 @@
 package com.example.akkar2.entities;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,19 +20,18 @@ import java.util.Date;
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idreservation")
     private Long idRes;
-    @Temporal(TemporalType.DATE)
-    private Date checkInDate;
-    @Temporal(TemporalType.DATE)
-    private Date checkOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     private boolean status;
-    private double prepaymentamount;
+    private Double prepaymentamount;
     private boolean prepaymentstatus;
-    private double totalamount;
+    private Double totalamount;
     private int numberofresidents;
     @ManyToOne
+    @JsonIgnore
     private Client client;
     @ManyToOne
+    @JsonIgnore
     private RealEstate realEstate;
 }
