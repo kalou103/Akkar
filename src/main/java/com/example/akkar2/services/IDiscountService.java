@@ -1,12 +1,16 @@
 package com.example.akkar2.services;
 
+import com.example.akkar2.entities.Command;
 import com.example.akkar2.entities.Discount;
 
 import java.util.List;
 
 public interface IDiscountService {
-    public Discount addDiscount (Discount discount);
+    Discount addDiscount(Discount discount) ;
+
+    void assignDiscountToFurniture(Long discountId, Long furnitureId);
     public void deleteDiscount(Long discountId);
     public List<Discount> GetAllDiscounts();
     public Discount updateDiscount(Discount discount );
+
 }

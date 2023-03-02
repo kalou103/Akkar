@@ -2,6 +2,9 @@ package com.example.akkar2.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,7 +26,9 @@ public class Furniture implements Serializable {
     Long furnitureId;
     @Enumerated(EnumType.STRING)
     FurnitureCategory furnitureCategory;
+    @NotEmpty(message = "Product Name is mandatory")
     String furnitureName;
+    @NotNull(message = "Please provide some price")
     Float furniturePrice;
     @Temporal(TemporalType.DATE)
     Date publicationDate;
@@ -31,16 +36,13 @@ public class Furniture implements Serializable {
     String furniturePicture;
     Integer stock;
 
+@JsonIgnore
+   @ManyToMany(mappedBy = "furnitures")
+    private Set<Command>  commands;
 
-    //Les commandes lier a cet furniture
     @JsonIgnore
-    @OneToOne(mappedBy = "furniture")
-    private Command command;
-    //l'utilisateur owner du furniture
-    @JsonIgnore
-    @OneToMany
-            (cascade = CascadeType.ALL, mappedBy="furniture")
-    private List<Discount> discounts;
+    @ManyToOne
+    private Discount discount;
     @JsonIgnore
     @ManyToOne
     private User user;

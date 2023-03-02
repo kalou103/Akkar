@@ -1,13 +1,12 @@
 package com.example.akkar2.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +26,6 @@ public class Discount  implements Serializable {
     @Temporal(TemporalType.DATE)
     Date endingDate;
     String discountPicture;
-    @JsonIgnore
     @ManyToOne
     private Furniture furniture;
 

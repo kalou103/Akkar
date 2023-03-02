@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,16 +22,17 @@ public class Command  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long commandId;
 
-    Double quantity;
+    Integer quantity;
     @Temporal(TemporalType.DATE)
     Date commandDate;
+    @JsonIgnore
     Double totalPrice;
     Boolean payementStatus;
-   @JsonIgnore
-    @OneToOne
-    private Furniture furniture;
-   // OneToMany(mappedBy="")
-    //  Set<Client>clients;
+
+    @ManyToMany
+    @JsonIgnore
+    private Set<Furniture> furnitures ;
+
    @ManyToOne
    @JsonIgnore
    private User user;

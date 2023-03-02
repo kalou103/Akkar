@@ -17,6 +17,12 @@ public class DiscountRestController {
     @ResponseBody
     public void addDiscount(Discount discount) {
         discountService.addDiscount(discount);}
+    @PutMapping("/assignDiscountToFurniture/{discountId}/{furnitureId}")
+    @ResponseBody
+    public void  assignDiscountToFurniture(@PathVariable("discountId") Long discountId,@PathVariable("furnitureId") Long furnitureId) {
+        discountService.assignDiscountToFurniture(discountId,furnitureId);
+
+    }
 
     @GetMapping("/getAlldiscounts")
     public List<Discount> getDiscounts() {
