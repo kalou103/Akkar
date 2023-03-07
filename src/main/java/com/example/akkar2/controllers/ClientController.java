@@ -1,6 +1,7 @@
 package com.example.akkar2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.akkar2.entities.Client;
 import com.example.akkar2.services.IClientService;
@@ -44,4 +45,9 @@ public class ClientController {
     public Client modifyClient(@RequestBody Client cl) {
         return UserService.updateClient(cl);
     }
+    @PostMapping("/ChargeCard")
+    public ResponseEntity<String> chargeCard( @RequestParam("amount") int amount) {
+        return UserService.chargeCard(amount);
+    }
+
 }
