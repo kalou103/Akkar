@@ -6,7 +6,14 @@ import com.example.akkar2.entities.Furniture;
 import com.example.akkar2.repository.CommandRepository;
 import com.example.akkar2.repository.FurnitureRepository;
 import com.google.zxing.NotFoundException;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +25,7 @@ public class CommandService implements ICommandService {
     CommandRepository commandRepository;
     @Autowired
     FurnitureRepository furnitureRepository;
+
 
 
    @Override
@@ -51,7 +59,7 @@ public class CommandService implements ICommandService {
        }
        furnitureRepository.saveAll(furnitures);
    }
-    public Double calculateTotalPrice(Long commandId) {
+   /* public Double calculateTotalPrice(Long commandId) {
         Command command = commandRepository.findById(commandId).orElse(null);
 
         Double totalPrice = 0.0;
@@ -60,6 +68,52 @@ public class CommandService implements ICommandService {
         }
 
         return totalPrice;
+    }*/
+    @Override
+    public String chargeCard( Long commandId, String number, int exp_month , int exp_year, int cvc) {
+        Stripe.apiKey="sk_test_51Mj7MeI8iXSNwnqFvRoJapWmkAWSGMirgDaR3m5v1WKj7JarNIUwaSv4fOL8KFoGtfBawhJF8EWtL520YNWlpoMC00C4Xd1EYv";
+        Command command = commandRepository.findById(commandId).orElse(null);
+
+        int totalPrice = 0;
+        for (Furniture furniture : command.getFurnitures()) {
+            totalPrice += furniture.getFurniturePrice() * command.getQuantity();
+        }
+        try {
+
+            try {
+                Map<String, Object> params = new HashMap<>();
+                Map<String, Object> tokenParams = new HashMap<>();
+                Map<String, Object> cardParams = new HashMap<>();
+
+                cardParams.put("number", number);
+                cardParams.put("exp_month", exp_month);
+                cardParams.put("exp_year", exp_year);
+                cardParams.put("cvc", cvc);
+
+                tokenParams.put("card", cardParams);
+                Token token = Token.create(tokenParams);
+
+                if (token.getId()!=null){
+                    params.put("amount", totalPrice);
+                    params.put("description", "payement ");
+                    params.put("currency", "eur");
+                    params.put("source", token.getId());
+                    Charge.create(params);
+
+
+                }
+
+
+                return "Payment successful";
+
+            } catch (StripeException e) {
+                return "Error processing payment: " + e.getMessage();
+
+            }
+        } catch (Exception e) {
+            return "Error processing payment: " + e.getMessage();
+        }
+
     }
 
      /*  // Ajouter la nouvelle commande

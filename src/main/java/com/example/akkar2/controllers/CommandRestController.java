@@ -3,25 +3,14 @@ package com.example.akkar2.controllers;
 
 import com.example.akkar2.entities.Command;
 //import com.example.akkar2.entities.GeneratePdf;
-import com.example.akkar2.entities.Furniture;
-import com.example.akkar2.entities.FurniturePdfExporter;
 import com.example.akkar2.repository.CommandRepository;
 import com.example.akkar2.services.CommandService;
-import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class CommandRestController {
@@ -62,10 +51,10 @@ public class CommandRestController {
         Command command= commandService.updateCommand(c);
         return command;
     }
-    @GetMapping("/commands/{commandId}/total-price")
-    public ResponseEntity<Double> calculateTotalPrice(@PathVariable Long commandId) {
-        Double totalPrice = commandService.calculateTotalPrice(commandId);
-        return ResponseEntity.ok(totalPrice);
+    @PostMapping("/commands/{commandId}/number/{number}/year/{exp_year}/month/{exp_month}/cvc/{cvc}")
+    public ResponseEntity<String> calculateTotalPrice(/*@PathVariable("clientid") int clientID, */@PathVariable("commandId") Long commandId, @PathVariable("number") String number, @PathVariable("exp_month") int exp_month , @PathVariable("exp_year") int exp_year, @PathVariable("cvc") int cvc) {
+
+        return ResponseEntity.ok( commandService.chargeCard(commandId, number,  exp_month , exp_year,  cvc));
     }
    /* @GetMapping("/stats")
     public ResponseEntity<?> getStats(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
