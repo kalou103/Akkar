@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -44,7 +45,12 @@ public class Comment {
 
     Post post;
 
-
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "comment_likes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User> likedBy;
 
     }
 

@@ -22,14 +22,14 @@ public class ClientService implements IClientService{
         return (List<Client>) ClientRepository.findAll();
     }
     @Override
-    public Client retrieveClient(int id) {
+    public Client retrieveClient(Long id) {
 
-        return  ClientRepository.findById(id).orElse(new Client());
+        return  ClientRepository.findClientById(id);
 
 
     }
     @Override
-    public void removeClient(int id) {
+    public void removeClient(Long id) {
          ClientRepository.deleteById(id);
     }
 

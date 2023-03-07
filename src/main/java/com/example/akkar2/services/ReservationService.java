@@ -39,12 +39,12 @@ public class ReservationService implements  IReservationService {
         RealEstate Re =  realEstateRepo.findRealEstateByIdRealEstate(guestHouseId);
         return reservationRepository.findReservationByRealEstate(Re);
     }
-    public Reservation createReservation(Reservation reservation, Long guestHouseId, int clientId) {
+    public Reservation createReservation(Reservation reservation, Long guestHouseId, Long clientId) {
         //recherche du real estate et client
         RealEstate guestHouse = realEstateRepo.findRealEstateByIdRealEstate(guestHouseId);
 
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid client ID"));
+        Client client = clientRepository.findClientById(clientId);
+
 
         // settina l real estate w client
         reservation.setRealEstate(guestHouse);
@@ -136,6 +136,8 @@ public class ReservationService implements  IReservationService {
     public void deleteReservation(Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
+
+
 
    /* public void payPrepayment(int reservationId, String token) throws StripeException {
         Reservation reservation = reservationRepository.findById(reservationId)

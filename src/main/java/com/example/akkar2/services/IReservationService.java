@@ -4,7 +4,7 @@ import com.example.akkar2.entities.Reservation;
 
 
 public interface IReservationService {
-   Reservation createReservation(Reservation reservation, Long guestHouseId, int clientId);
+   Reservation createReservation(Reservation reservation, Long guestHouseId, Long clientId);
     //Reservation addReservation(Reservation res);
    // Reservation addReservation(RealEstate r, Client c, Date dateIn , Date dateOut);
    // boolean isRealEstateAvailable(RealEstate Re, Date startDate, Date endDate);

@@ -1,6 +1,7 @@
 package com.example.akkar2.controllers;
 
 import com.example.akkar2.entities.Comment;
+import com.example.akkar2.entities.Post;
 import com.example.akkar2.entities.User;
 import com.example.akkar2.repository.UserRepository;
 import com.example.akkar2.services.CommentService;
@@ -39,6 +40,13 @@ public class CommentController {
     public List<Comment> getCommentsByPost(@PathVariable Long id){
 
         return commentsService.getCommentsFromPost(id);
+    }
+    @PutMapping ("/like/{id}/{userId}")
+    public Comment likePostById(@PathVariable("id") Long id, @PathVariable("userId") Long userid)
+    {
+
+
+        return commentsService.giveALike(id,userid);
     }
     @DeleteMapping("/delete/{Id}")
     @ResponseBody

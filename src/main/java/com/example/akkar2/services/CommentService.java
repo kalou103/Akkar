@@ -63,6 +63,22 @@ public class CommentService  {
             }
         }
     }
+    public Comment giveALike(Long comId, Long userId) {
+        Comment comment = commentsRepository.findCommentByCommentId(comId);
+        User user = userRepository.findUserById(userId);
+        if (comment.getLikedBy().contains(user)) {
+            // User has already liked the post, so remove the like
+            comment.getLikedBy().remove(user);
+            comment.setVoteCount(comment.getVoteCount() - 1);
+        } else {
+            // User has not yet liked the post, so add the like
+            comment.getLikedBy().add(user);
+            comment.setVoteCount(comment.getVoteCount() + 1);
+        }
+
+        commentsRepository.save(comment);
+        return comment;
+    }
     public List<Comment> findCommentsForUser(User user){
 
         return commentsRepository.findByUser(user);

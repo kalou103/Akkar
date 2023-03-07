@@ -31,12 +31,12 @@ public class ClientController {
     }
     @GetMapping("/retrieve-Client/{clientid}")
     @ResponseBody
-    public Client retrieveClient(@PathVariable("clientid")int id) {
+    public Client retrieveClient(@PathVariable("clientid")Long id) {
         return  UserService.retrieveClient(id);
     }
     @DeleteMapping("/delete-Client/{clientid}")
     @ResponseBody
-    public void removeClient(@PathVariable("clientid")int id) {
+    public void removeClient(@PathVariable("clientid")Long id) {
           UserService.removeClient(id);
     }
     @PutMapping("/modify-Client")

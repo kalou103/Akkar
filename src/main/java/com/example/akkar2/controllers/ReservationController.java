@@ -30,7 +30,7 @@ public class ReservationController {
                                       @RequestBody Reservation reservation)
     {
         long ReId = Long.parseLong(REid);
-        int UuId = Integer.parseInt(uuid);
+        long UuId = Long.parseLong(uuid);
 
 
 
