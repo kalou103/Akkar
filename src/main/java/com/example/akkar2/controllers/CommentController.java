@@ -19,7 +19,7 @@ public class CommentController {
 
 
         @PostMapping("/add/{id}/{userid}")
-        public Comment addComment(@PathVariable Long id, @RequestBody Comment comments, @PathVariable Long  userid){
+        public Comment addComment(@PathVariable("id") Long id, @PathVariable("userid") Long  userid, @RequestBody Comment comments){
 
 
 

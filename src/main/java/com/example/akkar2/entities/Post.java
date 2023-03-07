@@ -24,34 +24,48 @@ import static javax.persistence.FetchType.LAZY;
 @Data
 public class Post implements Serializable{
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long postId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long postId;
 
-        String postTitle;
-        String postUrl;
-        Integer voteCount;
+    String postTitle;
+    String postUrl;
+    Integer voteCount;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "post_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> likedBy;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "post_dislikes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> dislikedBy;
     @Lob
     private String postDescription;
     @Enumerated(EnumType.STRING)
     private PostTopic category;
     @CreationTimestamp
     private Date dateCreated;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "uid", referencedColumnName = "id")
-@JsonIgnore
+
+    @JsonIgnore
     private User user;
 
 
-        //Les commandes lier a cet furniture
+    //Les commandes lier a cet furniture
 
 
-        //l'utilisateur owner du furniture
+    //l'utilisateur owner du furniture
     @JsonIgnore
-        @OneToMany
-                (cascade = CascadeType.ALL, mappedBy="post")
-        private List<Comment> comments;
+    @OneToMany
+            (cascade = CascadeType.ALL, mappedBy="post")
+    private List<Comment> comments;
 
 }
 

@@ -18,9 +18,9 @@ public class PostController {
       UserRepository userDao;
 
     @PostMapping("/add/{userid}")
-    public void addPost(@RequestBody Post post,@PathVariable("userid")  Long userid){
+    public Post addPost(@RequestBody Post post,@PathVariable("userid")  Long userid){
 
-        postService.createPost(post, userid);
+       return postService.createPost(post, userid);
     }
 
 
@@ -80,19 +80,31 @@ public class PostController {
         postService.deletePost(postId, userid);
     }
 
-    @GetMapping("/like/{id}")
-    public Post likePostById(@PathVariable("id") Long id){
+    @PutMapping ("/like/{id}/{userId}")
+    public Post likePostById(@PathVariable("id") Long id, @PathVariable("userId") Long userid)
+        {
 
 
-        return postService.giveALike(id);
+        return postService.giveALike(id,userid);
     }
-    @GetMapping("/dislike/{id}")
-    public Post dislikePostById(@PathVariable("id") Long id){
+    @PutMapping("/dislike/{id}/{userId}")
+    public Post dislikePostById(@PathVariable("id") Long id, @PathVariable("userId") Long userid){
 
 
-        return postService.giveADisLike(id);
+        return postService.giveADisLike(id,userid);
     }
+    @GetMapping("/get/likedBy/{id}")
+    public List<String> getUsersLikedPost(@PathVariable("id") Long id){
 
+
+        return postService.getUsersLikedPost(id);
+    }
+    @GetMapping("/get/dislikedBy/{id}")
+    public List<String> getUsersDislikedPost(@PathVariable("id") Long id){
+
+
+        return postService.getUsersDislikedPost(id);
+    }
     }
 
 

@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -16,17 +14,22 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_res")
     private Long idRes;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
+    @JsonIgnore
     private boolean status;
+    @JsonIgnore
     private Double prepaymentamount;
+    @JsonIgnore
     private boolean prepaymentstatus;
+    @JsonIgnore
     private Double totalamount;
+
     private int numberofresidents;
     @ManyToOne
     @JsonIgnore

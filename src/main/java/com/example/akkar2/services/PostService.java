@@ -8,10 +8,11 @@ import com.example.akkar2.services.Exceptions.NotUserPostFoundException;
 import com.example.akkar2.services.Exceptions.PostNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,15 +97,61 @@ public class PostService  {
         return postRepository.save(post);
     }
 
-    public Post giveALike(Long id){
-        Post post = postRepository.getById(id);
-        post.setVoteCount(post.getVoteCount()+1);
-        return postRepository.save(post);
+
+
+    public Post giveALike(Long postId, Long userId) {
+        Post post = postRepository.findPostByPostId(postId);
+        User user = userDao.findUserById(userId);
+        if (post.getLikedBy().contains(user)) {
+            // User has already liked the post, so remove the like
+            post.getLikedBy().remove(user);
+            post.setVoteCount(post.getVoteCount() - 1);
+        } else {
+            // User has not yet liked the post, so add the like
+            post.getLikedBy().add(user);
+            post.setVoteCount(post.getVoteCount() + 1);
+        }
+
+        postRepository.save(post);
+        return post;
     }
-    public Post giveADisLike(Long id){
-        Post post = postRepository.getById(id);
-        post.setVoteCount(post.getVoteCount()-1);
-        return postRepository.save(post);
+    public Post giveADisLike(Long postId, Long userId){
+        Post post = postRepository.findPostByPostId(postId);
+        User user = userDao.findUserById(userId);
+
+        if (post.getDislikedBy().contains(user)) {
+            // User has already disliked the post, so remove the dislike
+            post.getDislikedBy().remove(user);
+            post.setVoteCount(post.getVoteCount() + 1);
+        } else if (post.getLikedBy().contains(user)){
+            // User has not yet liked the post, so add the like
+            post.getLikedBy().remove(user);
+            post.getDislikedBy().add(user);
+            post.setVoteCount(post.getVoteCount() - 1);
+        } else {post.getDislikedBy().add(user);
+            post.setVoteCount(post.getVoteCount() - 1);}
+
+        postRepository.save(post);
+        return post;
+    }
+    public List<String> getUsersLikedPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException("Post not found"));
+        List<User> likedBy = post.getLikedBy();
+        List<String> userNames = new ArrayList<>();
+        for (User user : likedBy) {
+            userNames.add(user.getFirstname()+user.getLastname());
+        }
+        return userNames;
+    }
+
+    public List<String> getUsersDislikedPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException("Post not found"));
+        List<User> likedBy = post.getDislikedBy();
+        List<String> userNames = new ArrayList<>();
+        for (User user : likedBy) {
+            userNames.add(user.getFirstname()+user.getLastname());
+        }
+        return userNames;
     }
 
     public  Iterable<Post> showPostsByCategory(String category){

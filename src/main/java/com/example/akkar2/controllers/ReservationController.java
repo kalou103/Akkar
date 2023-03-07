@@ -1,16 +1,15 @@
 package com.example.akkar2.controllers;
 
-import com.example.akkar2.entities.Client;
-import com.example.akkar2.entities.RealEstate;
 import com.example.akkar2.entities.Reservation;
 import com.example.akkar2.repository.ClientRepository;
 import com.example.akkar2.repository.RealEstateRepository;
-import com.example.akkar2.services.RealEstateService;
 import com.example.akkar2.services.ReservationService;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -32,12 +31,31 @@ public class ReservationController {
     {
         long ReId = Long.parseLong(REid);
         int UuId = Integer.parseInt(uuid);
-        RealEstate RE =  realEstateRepository.findRealEstateByIdRealEstate(ReId);
-        Client Cl = ClientRepo.findById(UuId).orElse(null);
-        reservation.setClient(Cl);
-        reservation.setRealEstate(RE);
 
-        return reservationService.addReservation(reservation);
+
+
+        return reservationService.createReservation(reservation,ReId,UuId);
+    }
+    @GetMapping("/GetByRealEstate/{RealId}")
+    public List<Reservation> getAllReservationsByGuestHouse(@PathVariable("RealId")Long id) {
+        return reservationService.getAllReservationsByRealEstate(id);
+    }
+    @GetMapping("/{reservationId}/pdf")
+    public ResponseEntity<byte[]> getReservationPdf(@PathVariable("reservationId") Long reservationId) {
+        try {
+            byte[] pdf = reservationService.generatePdf(reservationId);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDisposition(ContentDisposition.builder("inline").filename("reservation"+reservationId+".pdf").build());
+            return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+        } catch (IOException | DocumentException e) {
+            // Handle exception appropriately
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping("/{reservationId}")
+    public void deleteReservation(@PathVariable Long reservationId) {
+        reservationService.deleteReservation(reservationId);
     }
   /*  @GetMapping("/checkAvailability/{RealEstate}")
     @ResponseBody

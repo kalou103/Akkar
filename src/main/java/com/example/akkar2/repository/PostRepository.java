@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface PostRepository  extends JpaRepository<Post, Long> {
 
+
     @Query("" +
             "SELECT CASE WHEN COUNT(s) > 0 THEN " +
             "TRUE ELSE FALSE END " +
@@ -24,6 +25,7 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
     Iterable<Post> findByIdDesc();
     Iterable<Post> searchByPostTitle(String title);
     Post findPostByPostId(Long postId);
+
 
     List<Post> findPostByUser(User user);
 
