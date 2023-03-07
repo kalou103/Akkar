@@ -2,16 +2,26 @@ package com.example.akkar2.services;
 
 
 import com.example.akkar2.entities.Command;
+import com.example.akkar2.entities.Discount;
 import com.example.akkar2.entities.Furniture;
 import com.example.akkar2.entities.FurnitureCategory;
 import com.example.akkar2.repository.CommandRepository;
+import com.example.akkar2.repository.DiscountRepository;
 import com.example.akkar2.repository.FurnitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 @Service
 public class FurnitureService implements IFurnitureService {
@@ -19,6 +29,8 @@ public class FurnitureService implements IFurnitureService {
     FurnitureRepository furnitureRepository;
     @Autowired
     CommandRepository commandRepository;
+    @Autowired
+    DiscountRepository discountRepository;
 
     @Override
     public Furniture addFurniture(Furniture furniture) {
@@ -97,6 +109,100 @@ public class FurnitureService implements IFurnitureService {
         System.out.println("Kitchen : " + nbrKitchen);
 
     }
+
+
+    public List<Furniture> predictTopSellingFurniture(int n) {
+        List<Furniture> topSellingFurniture = new ArrayList<>();
+
+        // Récupérer toutes les commandes dans la base de données
+        List<Command> commands = commandRepository.findAll();
+
+        // Créer un dictionnaire pour stocker les ventes pour chaque meuble
+        Map<Long, Integer> salesMap = new HashMap<>();
+        for (Command command : commands) {
+            List<Furniture> furnitures = command.getFurnitures();
+            for (Furniture furniture : furnitures) {
+                long furnitureId = furniture.getFurnitureId();
+                if (salesMap.containsKey(furnitureId)) {
+                    salesMap.put(furnitureId, salesMap.get(furnitureId) + command.getQuantity());
+                } else {
+                    salesMap.put(furnitureId, command.getQuantity());
+                }
+            }
+        }
+
+        // Trier les meubles par ordre décroissant de ventes
+        List<Map.Entry<Long, Integer>> sortedSales = new ArrayList<>(salesMap.entrySet());
+        sortedSales.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // Sélectionner les n meilleurs meubles
+        int count = 0;
+        for (Map.Entry<Long, Integer> entry : sortedSales) {
+            if (count >= n) {
+                break;
+            }
+            Furniture furniture = furnitureRepository.findById(entry.getKey()).orElse(null);
+            if (furniture != null) {
+                furniture.setSalesCount(entry.getValue());
+                topSellingFurniture.add(furniture);
+            }
+            count++;
+        }
+
+        return topSellingFurniture;
+    }
+    public List<Furniture> getLeastSellers() {
+        List<Furniture> allFurniture = furnitureRepository.findAll();
+        Collections.sort(allFurniture, Comparator.comparingInt(f -> f.getSalesCount() == null ? 0 : f.getSalesCount()));
+        return allFurniture;
+    }
+    public List<Furniture> getAllDiscountedFurnitures() {
+        List<Discount> activeDiscounts = discountRepository.findActiveDiscounts(new Date());
+        List<Furniture> discountedFurnitures = new ArrayList<>();
+        for (Discount discount : activeDiscounts) {
+            discountedFurnitures.addAll(discount.getFurnitures());
+        }
+        return discountedFurnitures;
+    }
+   /* public List<Furniture> getTopSellingFurniture(Date startDate, Date endDate) {
+        List<Command> commands = commandRepository.findByDateBetween(startDate, endDate);
+        Map<Long, Integer> furnitureSalesCount = new HashMap<>();
+        for (Command command : commands) {
+            for (Furniture furniture : command.getFurnitures()) {
+                Long furnitureId = furniture.getFurnitureId();
+                Integer salesCount = furnitureSalesCount.getOrDefault(furnitureId, 0);
+                salesCount += furniture.getSalesCount();
+                furnitureSalesCount.put(furnitureId, salesCount);
+            }
+        }
+        List<Furniture> topSellingFurniture = new ArrayList<>();
+        for (Map.Entry<Long, Integer> entry : furnitureSalesCount.entrySet()) {
+            Furniture furniture = furnitureRepository.findById(entry.getKey()).orElse(null);
+            if (furniture != null) {
+                furniture.setSalesCount(entry.getValue());
+                topSellingFurniture.add(furniture);
+            }
+        }
+        topSellingFurniture.sort(Comparator.comparingInt(Furniture::getSalesCount).reversed());
+        return topSellingFurniture.subList(0, Math.min(topSellingFurniture.size(), 10));
+    }*/
+ /*  public void saveFurnitureImage(MultipartFile file) throws IOException {
+       String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+       String uploadDir = "C:/Users/zaine/Desktop/akkarpi/Akkar/src/main/resources/uploads";
+       Path uploadPath = Paths.get(uploadDir);
+
+       if (!Files.exists(uploadPath)) {
+           Files.createDirectories(uploadPath);
+       }
+
+       try (InputStream inputStream = file.getInputStream()) {
+           Path filePath = uploadPath.resolve(fileName);
+           Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+           this.furniturePicture = "/images/furniture/" + fileName;
+       } catch (IOException e) {
+           throw new IOException("Could not save uploaded file: " + fileName, e);
+       }
+   }*/
 
 
 }

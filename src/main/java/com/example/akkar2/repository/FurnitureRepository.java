@@ -27,6 +27,8 @@ public interface FurnitureRepository extends JpaRepository<Furniture,Long> {
     @Query(" select count(c) from Furniture c where c.furnitureCategory=:furnitureCategory")
     int getFurnitureByfurnitureCategory(@Param("furnitureCategory") FurnitureCategory furnitureCategory);
 
+    @Query("SELECT f FROM Furniture f WHERE f.discount IS NOT NULL")
+    List<Furniture> findAllWithDiscount();
 
 
 

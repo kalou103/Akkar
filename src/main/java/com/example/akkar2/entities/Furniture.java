@@ -7,8 +7,10 @@ import javax.validation.constraints.NotNull;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -35,16 +37,24 @@ public class Furniture implements Serializable {
     Boolean availability;
     String furniturePicture;
     Integer stock;
+    @JsonIgnore
+    Integer salesCount; // Champ pour stocker le nombre de ventes
+    @Transient
+    private MultipartFile furnitureImage;
 
-@JsonIgnore
-   @ManyToMany(mappedBy = "furnitures")
-    private Set<Command>  commands;
+    /*@JsonIgnore
+    @ManyToMany(mappedBy = "furnitures")
+    private List<Command>  commands;*/
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "furnitures")
+    @JsonIgnore
+    private List<Command> commands = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
     private Discount discount;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
     private User user;
+
 
 }

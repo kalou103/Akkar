@@ -6,9 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -29,11 +27,20 @@ public class Command  implements Serializable {
     Double totalPrice;
     Boolean payementStatus;
 
-    @ManyToMany
-    @JsonIgnore
-    private Set<Furniture> furnitures ;
+   /* @ManyToMany(cascade = CascadeType.ALL)
 
-   @ManyToOne
+    @JsonIgnore
+    private List<Furniture> furnitures ;*/
+   @ManyToMany
+   @JoinTable(
+           name = "command_furniture",
+           joinColumns = @JoinColumn(name = "commandId"),
+           inverseJoinColumns = @JoinColumn(name = "furniture_id")
+   )
+   @JsonIgnore
+   private List<Furniture> furnitures = new ArrayList<>();
+
+   @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JsonIgnore
    private User user;
 

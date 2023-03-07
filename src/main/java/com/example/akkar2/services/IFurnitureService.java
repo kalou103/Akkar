@@ -4,7 +4,9 @@ package com.example.akkar2.services;
 import com.example.akkar2.entities.Furniture;
 import com.example.akkar2.entities.FurnitureCategory;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface IFurnitureService {
     public Furniture addFurniture (Furniture furniture);
@@ -18,5 +20,10 @@ public interface IFurnitureService {
     public List<Furniture> FiltrerFurnitureByName(String furnitureName);
     public List<Furniture> FiltrerFurnitureByavailability();
     public List<Furniture> searchFurnitures(String keyword);
+    public List<Furniture> predictTopSellingFurniture(int n);
+    public List<Furniture> getLeastSellers();
+    public List<Furniture> getAllDiscountedFurnitures();
+
+    // public List<Furniture> getTopSellingFurniture(Date startDate, Date endDate);
 
 }

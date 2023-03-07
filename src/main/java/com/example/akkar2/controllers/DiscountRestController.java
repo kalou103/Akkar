@@ -2,6 +2,7 @@ package com.example.akkar2.controllers;
 
 
 import com.example.akkar2.entities.Discount;
+import com.example.akkar2.entities.FurnitureDiscountDTO;
 import com.example.akkar2.services.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +40,17 @@ public class DiscountRestController {
         Discount discount= discountService.updateDiscount(d);
         return discount;
     }
+    @PostMapping("/{discountId}/furnitures")
+    public Discount addDiscountToFurnitures(@PathVariable Long discountId, @RequestBody List<Long> furnitureId) {
+        return discountService.addDiscountToMultipleFurnitures(discountId, furnitureId);
+    }
+    /*@GetMapping("/furniture")
+    public List<FurnitureDiscountDTO> getFurnitureDiscountList() {
+        return discountService.getFurnitureDiscountList();
+    }*/
+    /*@GetMapping("/discounted-furniture")
+    public List<FurnitureDiscountDTO> getFurnitureDiscountList() {
+        return discountService.getFurnitureDiscountList();
+    }*/
+
 }

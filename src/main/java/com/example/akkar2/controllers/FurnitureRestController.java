@@ -1,12 +1,14 @@
 package com.example.akkar2.controllers;
 
 
-import com.example.akkar2.entities.Furniture;
-import com.example.akkar2.entities.FurnitureCategory;
-import com.example.akkar2.entities.QRCodeGenerator;
+import com.example.akkar2.entities.*;
+import com.example.akkar2.repository.FurnitureRepository;
+import com.example.akkar2.services.CommandService;
 import com.example.akkar2.services.FurnitureService;
 import com.google.zxing.WriterException;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.Multipart;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,6 +29,10 @@ public class FurnitureRestController {
     private static final String QR_CODE_IMAGE_PATH = "./src/main/resources/QRCode.png";
     @Autowired
     FurnitureService furnitureService;
+    @Autowired
+    FurnitureRepository furnitureRepository;
+    @Autowired
+    CommandService commandService;
 
     @PostMapping("/add-furniture")
     @ResponseBody
@@ -90,5 +101,57 @@ public class FurnitureRestController {
         return furnitureService.searchFurnitures(keyword);
     }
 
+    @GetMapping("/best-sellers")
+    public List<Furniture> getBestSellers() {
+        return furnitureService.predictTopSellingFurniture(2);
+    }
+    @GetMapping("/least-sellers")
+    public List<Furniture> getLeastSellers() {
+        return furnitureService.getLeastSellers();
+    }
+    @GetMapping("/activeDiscounts")
+    public List<Furniture> getAllDiscountedFurnitures() {
+        return furnitureService.getAllDiscountedFurnitures();
+    }
+    @GetMapping("/furniture/discount")
+    public ResponseEntity<List<Furniture>> getFurnitureWithDiscount() {
+        List<Furniture> furnitureList = furnitureRepository.findAllWithDiscount();
+        return ResponseEntity.ok(furnitureList);
+    }
+    @GetMapping("/export-to-pdf")
+    public void generatePdfFile(HttpServletResponse response) throws DocumentException, IOException
+    {
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerkey = "Content-Disposition";
+        String headervalue = "attachment; filename=command" + currentDateTime + ".pdf";
+        response.setHeader(headerkey, headervalue);
+        List < Furniture > furnitureList = furnitureRepository.findAllWithDiscount();
+        FurniturePdfExporter generator = new FurniturePdfExporter();
+        generator.export(furnitureList, response);
+    }
 
+
+   /* @GetMapping("/top-selling-furniture")
+    public List<Furniture> getTopSellingFurniture(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
+        return commandService.getTopSellingFurniture(startDate, endDate);
+    }*/
+
+   /* @GetMapping("/furniture/pdf")
+    public void exportFurniturePdf(HttpServletResponse response) throws DocumentException, IOException {
+        // Get the list of furniture from your database or service
+        List<Furniture> furnitureList = furnitureRepository.findAllWithDiscount();
+        // Set the content type of the response
+        response.setContentType("application/pdf");
+        // Set the headers for the response
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=furniture.pdf";
+        response.setHeader(headerKey, headerValue);
+        // Call the export method of FurniturePdfExporter
+        FurniturePdfExporter.export(furnitureList, response);
+    }*/
 }
