@@ -1,11 +1,13 @@
 package com.example.akkar2.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,9 +23,11 @@ public class ExpertAppointment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idExpertAppointment")
     private Long id;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date date;
-    private boolean appointmentStatus;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Timestamp startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Timestamp endTime;
+
     @ManyToOne
     @JsonIgnore
     private User client;

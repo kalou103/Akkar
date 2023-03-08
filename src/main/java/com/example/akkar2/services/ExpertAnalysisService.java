@@ -1,6 +1,7 @@
 package com.example.akkar2.services;
 
 import com.example.akkar2.entities.ExpertAnalysis;
+import com.example.akkar2.entities.Rating;
 import com.example.akkar2.repository.IExpertAnalysisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,24 @@ public class ExpertAnalysisService implements IExpertAnalysisService{
        return iExpertAnalysisRepository.save(expert);
     }
 
+
     @Override
     public List<ExpertAnalysis> ShowAllExpertAnalysis() {
        return iExpertAnalysisRepository.findAll();
+    }
+    public ExpertAnalysis showExpertAnalysisByid(int id)
+    {
+        return iExpertAnalysisRepository.findById(id);
     }
 
     @Override
     public void DeleteExpertAnalysis(Long id) {
         iExpertAnalysisRepository.deleteById(id);
 
+    }
+    public ExpertAnalysis getExpertAnalysisById(int id)
+    {
+        return iExpertAnalysisRepository.findById(id);
     }
 
     @Override
@@ -32,4 +42,5 @@ public class ExpertAnalysisService implements IExpertAnalysisService{
        return iExpertAnalysisRepository.save(e);
 
     }
+
 }

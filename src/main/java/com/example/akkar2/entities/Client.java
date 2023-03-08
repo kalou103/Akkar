@@ -24,8 +24,8 @@ public class Client extends User  implements Serializable {
     @Column(nullable = true)
     private int announcementAvailability;
     //announcement
-
     @OneToMany(mappedBy ="client" )
+    @JsonIgnore
     private List<Announcement> announcements;
     // reports
 
@@ -35,10 +35,12 @@ public class Client extends User  implements Serializable {
     //TransportationDemand
     //@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="client")
+    @JsonIgnore
     private List<TransportationDemand> transportationDemands;
     //contact
    // @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Contract> contracts;
  //   @JsonIgnore
     @OneToMany(mappedBy = "client")

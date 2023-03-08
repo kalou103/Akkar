@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin
+@CrossOrigin//CORS is a mechanism that allows web applications running on one domain to access resources from a different domain
 public class UsersMessagesController {
     @Autowired
     ExpertService expertService;

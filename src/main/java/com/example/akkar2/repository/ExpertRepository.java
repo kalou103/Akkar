@@ -14,13 +14,8 @@ public interface ExpertRepository extends JpaRepository<Expert, Integer> {
     public Expert findById(Long id);
     public Expert deleteById(Long id);
     public Expert deleteByCinLike(Long cin);
-    //public List<Expert> findBy
-   /* @Query("SELECT e FROM Expert e INNER JOIN RealEstate r ON e.expertLocation = r.location WHERE r.idRealEstate = :realEstateId")
-    List<Expert> findAllByRealEstateLocation(@Param("realEstateId") Long realEstateId);*/
-
-    //public List<Expert> findByExpertLocationAndExpertAnalysisRealEstateLocationAnd(String Elocation,String ReLocation);
-    public List<Expert> findByExpertLocation(String location);
-
+    public List<Expert> findByExpertLocation(String locationEx);//afficher la liste des experts qui sont égal a la location du RealEstate
+public Expert findByFirstname(String firstName);
 
 
 

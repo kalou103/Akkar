@@ -1,5 +1,6 @@
 package com.example.akkar2.services;
 
+import com.example.akkar2.repository.IRealEstateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.akkar2.entities.Expert;
@@ -11,6 +12,8 @@ import java.util.List;
 public class ExpertService implements IExpertService{
     @Autowired
     ExpertRepository ExpertRepository;
+    @Autowired
+    IRealEstateRepository realEstateRepository;
 
 
     @Override
@@ -43,11 +46,11 @@ public class ExpertService implements IExpertService{
         return ExpertRepository.findByExpertLocation(Location);
     }
 
+    public Expert findExpertByFirstName(String firstName) {
+        return ExpertRepository.findByFirstname(firstName);
+    }
 
 
-    /*public List<Expert> getExpertsByRealEstateLocation(Long realEstateId) {
-        return ExpertRepository.findAllByRealEstateLocation(realEstateId);
-    }*/
 
 
 }

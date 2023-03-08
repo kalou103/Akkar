@@ -6,7 +6,9 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ExpertAnalysis implements Serializable {
+public class ExpertAnalysis implements Serializable { 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public class ExpertAnalysis implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    private User client;
+    private Client client;
     @ManyToOne
     @JsonIgnore
     private Expert expert;
@@ -37,6 +39,8 @@ public class ExpertAnalysis implements Serializable {
     @ManyToOne
     @JsonIgnore
     private RealEstate realEstate;
+
+
 
 
 }

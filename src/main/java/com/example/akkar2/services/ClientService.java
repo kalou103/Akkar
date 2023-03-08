@@ -37,5 +37,9 @@ public class ClientService implements IClientService{
     public Client updateClient(Client c) {
         return ClientRepository.save(c);
     }
+    public Client getUserEmailByName(String UserName)
+    {
+       return ClientRepository.findByFirstname(UserName);
+    }
 
 }

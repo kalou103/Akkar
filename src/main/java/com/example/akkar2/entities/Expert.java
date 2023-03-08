@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,6 +37,14 @@ public class Expert extends User  implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="expert")
     @JsonIgnore
     private Set<ExpertAppointment> expertAppointments;
+    @OneToMany(mappedBy = "expert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings = new ArrayList<>();
+
+    public void addRating(Rating rating)
+    {
+        ratings.add(rating);
+        rating.setExpert(this);
+    }
 
 
 }
