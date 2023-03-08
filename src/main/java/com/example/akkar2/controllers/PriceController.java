@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequestMapping("/prices")
 public class PriceController {
 
-    @Autowired
+   /* @Autowired
     private PricePredictor pricePredictor;
 
     @GetMapping("/predict-moving-average")
@@ -26,5 +26,5 @@ public class PriceController {
     public ResponseEntity<Double> predictPrice(@RequestParam List<Double> historicalPrices) {
         double predictedPrice = pricePredictor.predictPrice(historicalPrices);
         return ResponseEntity.ok(predictedPrice);
-    }
+    }*/
 }

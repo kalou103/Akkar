@@ -55,8 +55,8 @@ public class TransportationDemand implements Serializable {
     @JsonIgnore
     Client client;
 
-   @OneToMany(mappedBy = "transportationDemand")
-    private List<Offer> offers;
+  /* @OneToMany(mappedBy = "transportationDemand")
+    private List<Offer> offers;*/
 
 
 
