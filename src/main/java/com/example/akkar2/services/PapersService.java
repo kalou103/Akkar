@@ -1,9 +1,12 @@
 package com.example.akkar2.services;
 
 import com.example.akkar2.entities.Papers;
+import com.example.akkar2.entities.PapersType;
+import com.example.akkar2.entities.RealEstate;
 import com.example.akkar2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,33 +16,50 @@ import java.util.Optional;
 public class PapersService  implements IPapersService{
 @Autowired
 
-    PapersRepository papersRepository;
-    @Override
-    public Papers addPapers(Papers p) {
+private PapersRepository documentRepository;
 
+    @Autowired
+    private RealEstateRepository realEstateRepository;
 
-        return papersRepository.save(p) ;
+    public List<Papers> getAllPapers() {
+        return documentRepository.findAll();
     }
 
-    @Override
-    public List<Papers> retrieveAllPapers() {
-        return papersRepository.findAll();
+    public Papers getPapersById(Long documentId) {
+        return documentRepository.findById(documentId)
+                .orElseThrow(() -> new NotFoundException("Document not found"));
     }
 
+    public List<Papers> getDocumentsByRealEstateId(Long realEstateId) {
+        RealEstate realEstate = realEstateRepository.findRealEstateByIdRealEstate(realEstateId);
 
 
-    @Override
-    public void removePapers(Long id) {
-        papersRepository.deleteById(id);
+        return documentRepository.findPapersByRealEstate(realEstate);
     }
 
-    @Override
-    public Papers updatePapers(Papers p) {
-        return papersRepository.save(p);
+    public Papers uploadDocument(Long realEstateId, String filename, String contentType, byte[] data, PapersType paperType) {
+        RealEstate realEstate = realEstateRepository.findRealEstateByIdRealEstate(realEstateId);
+
+
+        Papers document = new Papers();
+        document.setRealEstate(realEstate);
+        document.setFilename(filename);
+        document.setContentType(contentType);
+        document.setData(data);
+        document.setPaperType(paperType);
+
+        return documentRepository.save(document);
     }
 
-    public Optional<Papers> findById(Long id){ return papersRepository.findById(id);}
+    public void deleteDocument(Long documentId) {
+        Papers document = documentRepository.findPapersById(documentId);
+
+
+        documentRepository.delete(document);
+    }
+
 }
+
 
 
 

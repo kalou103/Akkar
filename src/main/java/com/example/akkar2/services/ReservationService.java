@@ -13,6 +13,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.akkar2.entities.Sexe.Female;
@@ -133,21 +136,39 @@ public class ReservationService implements  IReservationService {
 
         return outputStream.toByteArray();
     }
+    public double calculateTotalAmountForGuestHouse(Long guestHouseId, Date startDate, Date endDate) {
+        double totalAmount = 0;
+    RealEstate r=  realEstateRepo.findRealEstateByIdRealEstate(guestHouseId);
+        // Get the reservations for the specific guest house within the specified date range
+     List<Reservation>   reservations = reservationRepository.findAllBetween(r, startDate, endDate);
+
+        // Calculate the total amount for each reservation and sum them up
+        for (Reservation reservation : reservations) {
+            double PricePerNight = reservation.getRealEstate().getPricePerNight();
+            int numberOfNights = (int) ChronoUnit.DAYS.between( reservation.getCheckInDate(), reservation.getCheckOutDate());
+
+            double reservationTotal = PricePerNight * numberOfNights;
+            totalAmount += reservationTotal;
+        }
+
+        return totalAmount;
+    }
+
     public void deleteReservation(Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
 
 
 
-   /* public void payPrepayment(int reservationId, String token) throws StripeException {
-        Reservation reservation = reservationRepository.findById(reservationId)
+    /*public void payPrepayment(int reservationId, String token) throws StripeException {
+        Reservation reservation = reservationRepository.findReservationByIdRes(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
 
         Charge charge = stripeService.chargeCreditCard(token, reservation.getPrepaymentAmount(), "Prepayment for guest house reservation");
 
         reservation.setPrepaymentStatus(charge.getStatus().equals("succeeded"));
         reservationRepository.save(reservation);
-    }*/
+    }
 
     // ...
 

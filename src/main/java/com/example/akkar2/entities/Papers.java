@@ -23,24 +23,22 @@ import java.util.List;
 public class Papers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
+    private Long id;
 
-    private String title;
+    @Column(name = "filename")
+    private String filename;
 
-    private String description;
-    @OneToMany(mappedBy = "papers")
-    @JsonIgnore
-    private List<LoanPapers> loanPapers = new ArrayList<>();
+    @Column(name = "content_type")
+    private String contentType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paper_type")
+    private PapersType paperType;
+    @Lob
+    @Column(name = "data")
+    private byte[] data;
 
-    @OneToMany
-     @JsonIgnore
-    private List<CertificateOfOwnership> ownership = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "real_estate_id")
+    private RealEstate realEstate;
 
-    @OneToMany
-    @JsonIgnore
-    private List<RealEstatesFees> fees = new ArrayList<>();
-
-    @OneToOne(mappedBy = "paper")
-    @JsonIgnore
-    private RealEstate realestate;
 }

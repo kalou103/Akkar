@@ -10,6 +10,8 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -40,6 +42,11 @@ public class ReservationController {
     public List<Reservation> getAllReservationsByGuestHouse(@PathVariable("RealId")Long id) {
         return reservationService.getAllReservationsByRealEstate(id);
     }
+    @PutMapping("/CalculateRevenue/{id}")
+    public double calculateRevenue(@PathVariable("id") Long id, @RequestBody Date startDate, @RequestBody Date endDate) {
+
+        return reservationService.calculateTotalAmountForGuestHouse(id,startDate,endDate);
+    }
     @GetMapping("/{reservationId}/pdf")
     public ResponseEntity<byte[]> getReservationPdf(@PathVariable("reservationId") Long reservationId) {
         try {
@@ -53,6 +60,7 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping("/{reservationId}")
     public void deleteReservation(@PathVariable Long reservationId) {
         reservationService.deleteReservation(reservationId);

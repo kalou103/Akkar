@@ -15,12 +15,12 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
         List<Reservation> findReservationByRealEstate(RealEstate idRE);
         Reservation findReservationByIdRes(Long id);
-
         @Override
         void deleteById(Long integer);
-
-        List<Reservation> findByRealEstateAndAndCheckInDateGreaterThanEqualAndCheckOutDateLessThanEqual(RealEstate rs, LocalDate checkIn, LocalDate checkOut);
+      //  List<Reservation> findReservationByRealEstateAndCAndCheckInDateAfterAndCheckOutDateBefore(RealEstate r,LocalDate startDate,LocalDate endDate);
+       // List<Reservation> findByRealEstateAndAndCheckInDateGreaterThanEqualAndCheckOutDateLessThanEqual(RealEstate rs, LocalDate checkIn, LocalDate checkOut);
         @Query("SELECT r FROM Reservation r WHERE r.realEstate = :realEstate AND r.checkInDate <= :endDate AND r.checkOutDate >= :startDate")
         List<Reservation> findConflictingReservations(@Param("realEstate") RealEstate room, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-
+    @Query("SELECT r FROM Reservation r WHERE r.realEstate = :realEstate AND r.checkOutDate >= :startDate AND r.checkInDate <= :endDate ")
+    List<Reservation> findAllBetween(@Param("realEstate") RealEstate room, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
