@@ -11,6 +11,7 @@ public class SwaggerConfig {
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
                 .info(infoAPI());
+<<<<<<< Updated upstream
 
     }
 
@@ -18,4 +19,13 @@ public class SwaggerConfig {
         return new Info().title("Spring Doc-Demo")
                 .description("Akkar Doc");
     }}
+=======
+    }
+    public Info infoAPI() {
+        return new Info().title("Spring Doc-Demo")
+                .description("Akkar Doc");
+    }
+    
+}
+>>>>>>> Stashed changes
 

@@ -19,6 +19,10 @@ public class RatingService implements IRatingService {
    RatingRepository ratingRepository;
    
 
+<<<<<<< Updated upstream
+=======
+   // user yaati note
+>>>>>>> Stashed changes
 	@Override
 	public Rating rateRealEstate(Long idR, Rating rating, Integer idU) {
 		RealEstate realEstate=realEstateRepository.findById(idR).get();
@@ -30,6 +34,10 @@ public class RatingService implements IRatingService {
 
 
 	@Override
+<<<<<<< Updated upstream
+=======
+	// hethe yehsseb nbre de rating / kol realestate guedesh aandu rating
+>>>>>>> Stashed changes
 	public int nbrRationParRealEs(Long id) {
 		// TODO Auto-generated method stub
 		return realEstateRepository.nbrRating(id);

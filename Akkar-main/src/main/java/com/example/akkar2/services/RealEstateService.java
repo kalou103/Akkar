@@ -47,7 +47,11 @@ public class RealEstateService implements IRealEstateService {
 
 	@Override
 	public Page<RealEstate> getAllRealEstates(Pageable pageable) {
+<<<<<<< Updated upstream
 		// kol page mahtout feha 5 size taaeha yet9assmu baaed
+=======
+		// kol page mahtout feha 5 size taaeha yet9assmu baaed izid nbre de page
+>>>>>>> Stashed changes
 		pageable=Pageable.ofSize(5);
 		return realEstateRepository.findAll(pageable);
 	}
@@ -103,6 +107,25 @@ public class RealEstateService implements IRealEstateService {
 		Re.setAnnouncement(Ann);
 
 		realEstateRepository.save(Re);
+<<<<<<< Updated upstream
 		
 	}
+=======
+	}
+
+
+   /* public final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
+
+	public int calculateDistanceInKilometer(RealEstate Re) {
+		double latDistance = Math.toRadians(Re.getLatitude() - 36.24255502127699);
+		double lngDistance = Math.toRadians(Re.getLongitude() - 9.476723745103257);
+
+		double a = Math.sin(latDistance/2) * Math.sin(latDistance/2)
+				+ Math.cos(Math.toRadians(Re.getLatitude())) * Math.cos(Math.toRadians(36.24255502127699))
+				+ Math.sin(lngDistance/2) * Math.sin(lngDistance /2 );
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		return (int) (Math.round(AVERAGE_RADIUS_OF_EARTH_KM * c));
+	} */
+
+>>>>>>> Stashed changes
 }

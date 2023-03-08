@@ -9,6 +9,10 @@ import com.example.akkar2.services.IRealEstateService;
 import java.io.IOException;
 import java.util.List;
 
+<<<<<<< Updated upstream
+=======
+import com.example.akkar2.services.RealEstateService;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,13 +25,22 @@ public class RealEstateController {
 	IRealEstateService iRealEstate;
 	@Autowired
 	RealEstateRepository estateRepository;
+<<<<<<< Updated upstream
+=======
+	@Autowired
+	RealEstateService realEstateService;
+>>>>>>> Stashed changes
 
 	@PostMapping("/addRealEstate")
 	public RealEstate addRealEstate(@RequestParam("location") String location,
 			@RequestParam("pictures") MultipartFile pictures, @RequestParam("type") RealEstateType type,
 			@RequestParam("services") String services, @RequestParam("surface") int surface,
 			@RequestParam("rooms") int rooms, @RequestParam("floors") int floors,
+<<<<<<< Updated upstream
 			@RequestParam("description") String description) throws IOException {
+=======
+			@RequestParam("description") String description)  throws IOException {
+>>>>>>> Stashed changes
 
 		RealEstate newRealEstate = new RealEstate();
 		newRealEstate.setLocation(location);
@@ -38,6 +51,13 @@ public class RealEstateController {
 		newRealEstate.setRooms(rooms);
 		newRealEstate.setFloors(floors);
 		newRealEstate.setDescription(description);
+<<<<<<< Updated upstream
+=======
+		//newRealEstate.setLatitude(latitude);
+		//newRealEstate.setLongitude(longitude);
+		//newRealEstate.setDistance(realEstateService.calculateDistanceInKilometer(newRealEstate));
+		//, @RequestParam("latitude") float latitude, @RequestParam("longitude") float longitude )
+>>>>>>> Stashed changes
 		return estateRepository.save(newRealEstate);
 
 	}
@@ -82,6 +102,10 @@ public class RealEstateController {
 		return iRealEstate.getBySurfaceAndLocation(surface, location);
 	}
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	@GetMapping("/getByLowSur/{surface}")
 	List<RealEstate> getLowerSurface(@PathVariable int surface) {
 		return iRealEstate.getLowerSurface(surface);

@@ -15,11 +15,19 @@ import com.example.akkar2.services.IFavoriteService;
 public class FavoriteController {
 	@Autowired
 	IFavoriteService iFavoriteService;
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	@PostMapping("/addFavorite/{announcementId}/{userId}")
 	Favorite addFavorite(@PathVariable Long announcementId ,@PathVariable Long userId) {
 		return iFavoriteService.addFavorite(announcementId, userId);
 	}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	@GetMapping("/getFavorites/{userId}")
 	 List<Favorite> getFavoritesByUserId(@PathVariable Long userId){
 		return iFavoriteService.getFavoritesByUserId(userId);

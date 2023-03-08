@@ -3,6 +3,10 @@ package com.example.akkar2.controllers;
 import com.example.akkar2.entities.Announcement;
 import com.example.akkar2.entities.AnnouncementType;
 import com.example.akkar2.repository.AnnouncementRepository;
+<<<<<<< Updated upstream
+=======
+import com.example.akkar2.services.EmailService;
+>>>>>>> Stashed changes
 import com.example.akkar2.services.IAnnouncementService;
 
 import java.util.List;
@@ -15,6 +19,11 @@ public class AnnoucementController {
 
 	@Autowired
 	IAnnouncementService iAnnoucementService;
+<<<<<<< Updated upstream
+=======
+	@Autowired
+	EmailService  emailService;
+>>>>>>> Stashed changes
 
 	@PostMapping("/addAnnouncement")
 	Announcement ajouter_announcement(@RequestBody Announcement an) {
@@ -73,6 +82,9 @@ public class AnnoucementController {
 		return iAnnoucementService.getAnnouncementsByAverageRatingGreaterThan(rate);
 	}
 
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 
 }

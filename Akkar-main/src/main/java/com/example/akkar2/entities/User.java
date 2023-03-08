@@ -94,7 +94,11 @@ public class User implements Serializable{
 	private List<Comment> comment;
 	@ManyToMany
 	private List<Favorite> favorites;
+<<<<<<< Updated upstream
 	@OneToMany(mappedBy = "realEstate" , cascade = CascadeType.ALL)
+=======
+	@OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+>>>>>>> Stashed changes
 	private List<Rating> ratings;
 	
 

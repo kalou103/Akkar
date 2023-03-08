@@ -12,8 +12,16 @@ import com.example.akkar2.entities.RealEstate;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
+<<<<<<< Updated upstream
+=======
+	// hethy ana ndakhel realestate o hua yaatini liste taa rating aaliuhm
+>>>>>>> Stashed changes
 	List<Rating> findByRealEstate(RealEstate realEstate);
 
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }

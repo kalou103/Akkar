@@ -4,6 +4,10 @@ import com.example.akkar2.entities.Announcement;
 import com.example.akkar2.entities.AnnouncementType;
 import com.example.akkar2.entities.Rating;
 import com.example.akkar2.entities.RealEstate;
+<<<<<<< Updated upstream
+=======
+import com.example.akkar2.model.MailRequest;
+>>>>>>> Stashed changes
 import com.example.akkar2.repository.AnnouncementRepository;
 import com.example.akkar2.repository.RatingRepository;
 import com.example.akkar2.repository.RealEstateRepository;
@@ -22,6 +26,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< Updated upstream
+=======
+import org.springframework.mail.javamail.JavaMailSender;
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,10 +42,28 @@ public class AnnouncementService implements IAnnouncementService {
     RealEstateRepository realEstateRepository;
     @Autowired
     RatingRepository ratingRepository;
+<<<<<<< Updated upstream
 
     @Override
     public Announcement ajouter_announcement(Announcement an) {
        return announcementRepository.save(an);
+=======
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    JavaMailSender emailSender;
+
+    @Override
+    public Announcement ajouter_announcement(Announcement an) {
+
+        MailRequest  mailRequest = new MailRequest("Esprit",
+                "nour.bououn@esprit.tn", "Nouvelle Annonce", "Notre site  est spécialisée dans le secteur des secteurs d’immoblier depuis  2020 .\n" +
+                "Nos services ont par conséquent de faciliter l'utilisation et la recherche d'immoblier que vous avez besoin , estimer le budget nécessaire à de telles opérations et ainsi vous transmettre un devis en 48 heures. \n"
+                ,"Inspecter Maintenant", "http://localhost:4200" );
+
+        emailService.sendEmail(mailRequest);
+        return announcementRepository.save(an);
+>>>>>>> Stashed changes
          
     }
 
@@ -93,16 +119,24 @@ public class AnnouncementService implements IAnnouncementService {
 	@Override
 	public List<Announcement> getSimilarAnnouncements(Long id) {
 		Announcement announcement=announcementRepository.findById(id).get();
+<<<<<<< Updated upstream
 	    
 	    AnnouncementType type = announcement.getAnnouncementType();
 	    double price = announcement.getPrice();
 	    
+=======
+	    AnnouncementType type = announcement.getAnnouncementType();
+	    double price = announcement.getPrice();
+>>>>>>> Stashed changes
 	    List<Announcement> matchingAnnouncements = announcementRepository
                 // aana id annoucement avec un prix 100 et type rental donc lazem yejbed nafes type avec soum 9rib +- prix entre price *0.9 et prix * 1.1
                 // ka2énou intervalle lel soum semilair
 	        .findByAnnouncementTypeAndPriceBetween(type, price * 0.9, price * 1.1);
 
+<<<<<<< Updated upstream
 	   
+=======
+>>>>>>> Stashed changes
 	    return matchingAnnouncements;
 	  
 
@@ -121,6 +155,10 @@ public class AnnouncementService implements IAnnouncementService {
                 announcements.add(realEstate.getAnnouncement());
             }
         }
+<<<<<<< Updated upstream
+=======
+// ylawéj 3al
+>>>>>>> Stashed changes
 
         return announcements;
     }

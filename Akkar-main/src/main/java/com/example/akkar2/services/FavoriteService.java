@@ -30,7 +30,10 @@ public class FavoriteService implements IFavoriteService{
 			return favoriteRepository.save(favorite);
 		}
 	}
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 
 	@Override
 	public List<Favorite> getFavoritesByUserId(Long userId) {
@@ -38,7 +41,11 @@ public class FavoriteService implements IFavoriteService{
 		return favoriteRepository.findByUserId(userId);
 	}
 
+<<<<<<< Updated upstream
 
+=======
+// permet de calculer le nbre d'element taa rating fi wassét service
+>>>>>>> Stashed changes
 	@Override
 	public int nbrElementsFavoriteUser(Long userId) {
 		int nbr;
@@ -46,7 +53,10 @@ public class FavoriteService implements IFavoriteService{
 		
 	}
 
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 	@Scheduled(cron = "0 */45 * * * * ")
 	@Override
 	public void afficheFavorite() {
