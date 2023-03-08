@@ -7,16 +7,21 @@ import com.example.akkar2.services.CommandService;
 import com.example.akkar2.services.FurnitureService;
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
+import nonapi.io.github.classgraph.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.Multipart;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,6 +44,13 @@ public class FurnitureRestController {
     public void addFurniture(Furniture furniture) {
 
         furnitureService.addFurniture(furniture);}
+   /* @PostMapping("/add")
+    public ResponseEntity<Furniture> addFurniture(@Valid @RequestBody Furniture furniture,
+                                                  @RequestParam("image") MultipartFile image) throws IOException {
+        Furniture savedFurniture = furnitureService.saveFurniture(furniture, image);
+        return ResponseEntity.ok(savedFurniture);
+    }*/
+
 
     @GetMapping("/getAllFurniturs")
     public List<Furniture> getFurnitures() {

@@ -1,14 +1,12 @@
 package com.example.akkar2.services;
 
 
-import com.example.akkar2.entities.Command;
-import com.example.akkar2.entities.Discount;
-import com.example.akkar2.entities.Furniture;
-import com.example.akkar2.entities.FurnitureCategory;
+import com.example.akkar2.entities.*;
 import com.example.akkar2.repository.CommandRepository;
 import com.example.akkar2.repository.DiscountRepository;
 import com.example.akkar2.repository.FurnitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,18 @@ public class FurnitureService implements IFurnitureService {
     CommandRepository commandRepository;
     @Autowired
     DiscountRepository discountRepository;
+   /* @Value("${file.upload-dir}")
+    private String uploadDir;
+    public Furniture saveFurniture(Furniture furniture, MultipartFile image) throws IOException {
+        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+        furniture.setFurniturePicture(fileName);
+        Furniture savedFurniture = furnitureRepository.save(furniture);
 
+        String uploadDirPath = uploadDir + "/furniture/" + savedFurniture.getFurnitureId();
+        FileUploadUtil.saveFile(uploadDirPath, fileName, image);
+
+        return savedFurniture;
+    }*/
     @Override
     public Furniture addFurniture(Furniture furniture) {
         return furnitureRepository.save(furniture);

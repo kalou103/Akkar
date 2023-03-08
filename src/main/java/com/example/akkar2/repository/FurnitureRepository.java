@@ -33,4 +33,5 @@ public interface FurnitureRepository extends JpaRepository<Furniture,Long> {
 
 
 
+
 }
