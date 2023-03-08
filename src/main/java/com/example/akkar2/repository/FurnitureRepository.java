@@ -29,7 +29,7 @@ public interface FurnitureRepository extends JpaRepository<Furniture,Long> {
 
     @Query("SELECT f FROM Furniture f WHERE f.discount IS NOT NULL")
     List<Furniture> findAllWithDiscount();
-
+        Furniture findFurnitureByFurnitureId(Long id);
 
 
 

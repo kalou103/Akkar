@@ -7,25 +7,26 @@ import com.example.akkar2.services.CommandService;
 import com.example.akkar2.services.FurnitureService;
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
-import nonapi.io.github.classgraph.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.Multipart;
+import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,15 @@ public class FurnitureRestController {
     public void addFurniture(Furniture furniture) {
 
         furnitureService.addFurniture(furniture);}
+    @PostMapping("/furnitures/{id}/image")
+    public ResponseEntity<String> uploadFurnitureImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
+        furnitureService.uploadFurnitureImage(id, file);
+        return ResponseEntity.ok("Image uploaded successfully");
+    }
+    
+
+
+
    /* @PostMapping("/add")
     public ResponseEntity<Furniture> addFurniture(@Valid @RequestBody Furniture furniture,
                                                   @RequestParam("image") MultipartFile image) throws IOException {
@@ -51,6 +61,23 @@ public class FurnitureRestController {
         return ResponseEntity.ok(savedFurniture);
     }*/
 
+
+   /* @PostMapping("/furniture/add")
+    public ResponseEntity<Furniture> uploadDocument(
+
+            @RequestParam("file") MultipartFile file,
+            @RequestBody Furniture furniture) throws IOException {
+
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+            furniture.setFurniturePicture(filename);
+        String contentType = file.getContentType();
+        byte[] data = file.getBytes();
+
+        Furniture document = furnitureService.addFurniture(data ,furniture, contentType,filename);
+
+        return ResponseEntity.created(URI.create("/documents/" + document.getFurnitureId()))
+                .body(document);
+    }*/
 
     @GetMapping("/getAllFurniturs")
     public List<Furniture> getFurnitures() {

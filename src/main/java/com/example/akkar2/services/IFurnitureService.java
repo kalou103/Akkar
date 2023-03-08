@@ -10,6 +10,8 @@ import java.util.Map;
 
 public interface IFurnitureService {
     public Furniture addFurniture (Furniture furniture);
+   // public Furniture addFurniture (byte[] data,Furniture furniture,String ContentType,String filename);
+
     public void deleteFurniture(Long furnitureId);
     public List<Furniture> GetAllfurnitures();
     public Furniture updateFurniture(Furniture furniture );

@@ -29,18 +29,30 @@ public class FurnitureService implements IFurnitureService {
     CommandRepository commandRepository;
     @Autowired
     DiscountRepository discountRepository;
-   /* @Value("${file.upload-dir}")
-    private String uploadDir;
-    public Furniture saveFurniture(Furniture furniture, MultipartFile image) throws IOException {
-        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-        furniture.setFurniturePicture(fileName);
-        Furniture savedFurniture = furnitureRepository.save(furniture);
+    @Value("${furniture.image.upload.directory}")
+    private String uploadDirectory;
 
-        String uploadDirPath = uploadDir + "/furniture/" + savedFurniture.getFurnitureId();
-        FileUploadUtil.saveFile(uploadDirPath, fileName, image);
+    public void uploadFurnitureImage(Long furnitureId, MultipartFile file) {
+        Furniture furniture = furnitureRepository.findFurnitureByFurnitureId(furnitureId);
+        if (furniture != null) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            try {
+                Path uploadPath = Paths.get(uploadDirectory);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                try (InputStream inputStream = file.getInputStream()) {
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                }
+                furniture.setFurniturePicture(fileName);
+                furnitureRepository.save(furniture);
+            } catch (IOException ex) {
+                throw new RuntimeException("Failed to store file " + fileName, ex);
+            }
+        }
+    }
 
-        return savedFurniture;
-    }*/
     @Override
     public Furniture addFurniture(Furniture furniture) {
         return furnitureRepository.save(furniture);
@@ -112,7 +124,7 @@ public class FurnitureService implements IFurnitureService {
         int nbrDecoration = furnitureRepository.getFurnitureByfurnitureCategory(FurnitureCategory.Decoration);
         int nbrKitchen = furnitureRepository.getFurnitureByfurnitureCategory(FurnitureCategory.Kitchen);
         System.out.println("BedRooms: " + nbrBedRoom);
-        System.out.println(" LivingRooms: " + nbrLivingRoom);
+        System.out.println("LivingRooms: " + nbrLivingRoom);
         System.out.println("KidsRoom : " + nbrKidsRoom);
         System.out.println("Decoration : " + nbrDecoration);
         System.out.println("Kitchen : " + nbrKitchen);
@@ -212,6 +224,29 @@ public class FurnitureService implements IFurnitureService {
            throw new IOException("Could not save uploaded file: " + fileName, e);
        }
    }*/
+     /* @Value("${file.upload-dir}")
+    private String uploadDir;
+    public Furniture saveFurniture(Furniture furniture, MultipartFile image) throws IOException {
+        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+        furniture.setFurniturePicture(fileName);
+        Furniture savedFurniture = furnitureRepository.save(furniture);
+
+        String uploadDirPath = uploadDir + "/furniture/" + savedFurniture.getFurnitureId();
+        FileUploadUtil.saveFile(uploadDirPath, fileName, image);
+
+        return savedFurniture;
+    }
+
+   /* public Furniture addFurniture( byte[] data,Furniture furniture,String ContentType,String filename) {
+        furniture.setData(data);
+        furniture.setContentType(ContentType);
+        Papers document = new Papers();
+        furniture.setFurniturePicture(filename);
+
+
+        return furnitureRepository.save(furniture);
+
+    }*/
 
 
 }
