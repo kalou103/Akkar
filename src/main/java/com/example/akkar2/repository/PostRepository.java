@@ -1,6 +1,7 @@
 package com.example.akkar2.repository;
 
 import com.example.akkar2.entities.Post;
+import com.example.akkar2.entities.PostTopic;
 import com.example.akkar2.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepository  extends JpaRepository<Post, Long> {
-
 
     @Query("" +
             "SELECT CASE WHEN COUNT(s) > 0 THEN " +
@@ -34,7 +34,6 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
     )
     Iterable<Post> findPostByVoteCountDesc();
 
-
-    Iterable<Post> findPostByCategory(String category);
+    Iterable<Post> findPostByCategory(PostTopic category);
 
 }

@@ -3,6 +3,7 @@ package com.example.akkar2.controllers;
 import com.example.akkar2.entities.Reservation;
 import com.example.akkar2.repository.ClientRepository;
 import com.example.akkar2.repository.RealEstateRepository;
+import com.example.akkar2.repository.ReservationRepository;
 import com.example.akkar2.services.ReservationService;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class ReservationController {
     ClientRepository ClientRepo;
     @Autowired
      RealEstateRepository realEstateRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @PostMapping("/add-Reservation/{RealEstateId}/{ClientId}")
 
@@ -42,10 +44,17 @@ public class ReservationController {
     public List<Reservation> getAllReservationsByGuestHouse(@PathVariable("RealId")Long id) {
         return reservationService.getAllReservationsByRealEstate(id);
     }
+
     @PutMapping("/CalculateRevenue/{id}")
     public double calculateRevenue(@PathVariable("id") Long id, @RequestBody Date startDate, @RequestBody Date endDate) {
 
         return reservationService.calculateTotalAmountForGuestHouse(id,startDate,endDate);
+    }
+    @PutMapping("/cancelReservationIfWithinTwoDays/{id}")
+    public Reservation calculateRevenue(@PathVariable("id") Long id) {
+
+        Reservation r = reservationRepository.findReservationByIdRes(id);
+       return  reservationService.cancelReservationIfWithinTwoDays(r);
     }
     @GetMapping("/{reservationId}/pdf")
     public ResponseEntity<byte[]> getReservationPdf(@PathVariable("reservationId") Long reservationId) {

@@ -1,6 +1,7 @@
 package com.example.akkar2.services;
 
 import com.example.akkar2.entities.Post;
+import com.example.akkar2.entities.PostTopic;
 import com.example.akkar2.entities.User;
 import com.example.akkar2.repository.PostRepository;
 import com.example.akkar2.repository.UserRepository;
@@ -154,7 +155,7 @@ public class PostService  {
         return userNames;
     }
 
-    public  Iterable<Post> showPostsByCategory(String category){
+    public  Iterable<Post> showPostsByCategory(PostTopic category){
         return postRepository.findPostByCategory(category);
 
     }

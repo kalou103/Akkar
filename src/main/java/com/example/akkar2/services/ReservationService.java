@@ -1,5 +1,4 @@
 package com.example.akkar2.services;
-
 import com.example.akkar2.entities.Client;
 import com.example.akkar2.entities.RealEstate;
 import com.example.akkar2.entities.Reservation;
@@ -11,21 +10,14 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import static com.example.akkar2.entities.Sexe.Female;
 import static com.example.akkar2.entities.Sexe.Male;
 
@@ -70,9 +62,14 @@ public class ReservationService implements  IReservationService {
         Double prepaymentAmount = totalAmount * 0.3;
         reservation.setPrepaymentamount(prepaymentAmount);
 
-        // nsaviw
-        return reservationRepository.save(reservation);
+        if (reservation.getCheckInDate().isAfter(LocalDate.now()) && (reservation.getCheckInDate().isBefore(reservation.getCheckOutDate()))) {
+            return reservationRepository.save(reservation);
+        } else
+            throw new IllegalArgumentException("The guest house is not available for the specified date range.");
     }
+        // nsaviw
+
+
     public boolean checkAvailability(RealEstate guestHouse, LocalDate checkInDate, LocalDate checkOutDate) {
 
         List<Reservation> reservations = guestHouse.getReservations();
@@ -97,7 +94,7 @@ public class ReservationService implements  IReservationService {
     private Double calculateTotalAmount(RealEstate guestHouse, LocalDate checkInDate, LocalDate checkOutDate) {
         double days = ChronoUnit.DAYS.between( checkInDate, checkOutDate);
         double price =  guestHouse.getPricePerNight();
-        return (double) (days * price) ;
+        return  (days * price) ;
     }
     public byte[] generatePdf(Long reservationId) throws IOException, DocumentException {
         Reservation reservation = reservationRepository.findReservationByIdRes(reservationId);
@@ -135,6 +132,17 @@ public class ReservationService implements  IReservationService {
         document.close();
 
         return outputStream.toByteArray();
+    }
+    public Reservation cancelReservationIfWithinTwoDays(Reservation reservation) {
+        LocalDate reservationDate = reservation.getCheckInDate();
+        LocalDate currentDate = LocalDate.now();
+        long daysBetween = ChronoUnit.DAYS.between(currentDate, reservationDate);
+
+        if (daysBetween >= 2) {
+           reservationRepository.updateStatus(reservation.getIdRes());
+           return reservationRepository.findReservationByIdRes(reservation.getIdRes());
+        }
+        else return reservationRepository.findReservationByIdRes(reservation.getIdRes());
     }
     public double calculateTotalAmountForGuestHouse(Long guestHouseId, Date startDate, Date endDate) {
         double totalAmount = 0;

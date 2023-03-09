@@ -1,6 +1,7 @@
 package com.example.akkar2.controllers;
 
 import com.example.akkar2.entities.Post;
+import com.example.akkar2.entities.PostTopic;
 import com.example.akkar2.entities.User;
 import com.example.akkar2.repository.UserRepository;
 import com.example.akkar2.services.PostService;
@@ -59,7 +60,7 @@ public class PostController {
     }
 
     @GetMapping("/get/category/{category}")
-    public Iterable<Post> showPostsByCategories(@PathVariable("category") String category){
+    public Iterable<Post> showPostsByCategories(@PathVariable("category") PostTopic category){
 
         return postService.showPostsByCategory(category);
     }
