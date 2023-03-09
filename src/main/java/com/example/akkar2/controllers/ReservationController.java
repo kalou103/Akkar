@@ -45,8 +45,8 @@ public class ReservationController {
         return reservationService.getAllReservationsByRealEstate(id);
     }
 
-    @PutMapping("/CalculateRevenue/{id}")
-    public double calculateRevenue(@PathVariable("id") Long id, @RequestBody Date startDate, @RequestBody Date endDate) {
+    @GetMapping("/CalculateRevenue/{id}")
+    public double calculateRevenue(@PathVariable("id") Long id, @RequestParam Date startDate, @RequestParam Date endDate) {
 
         return reservationService.calculateTotalAmountForGuestHouse(id,startDate,endDate);
     }
