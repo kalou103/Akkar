@@ -1,14 +1,17 @@
 package com.example.akkar2.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,26 +26,34 @@ public class Furniture implements Serializable {
     Long furnitureId;
     @Enumerated(EnumType.STRING)
     FurnitureCategory furnitureCategory;
+    @NotEmpty(message = "Product Name is mandatory")
     String furnitureName;
+    @NotNull(message = "Please provide some price")
     Float furniturePrice;
     @Temporal(TemporalType.DATE)
     Date publicationDate;
     Boolean availability;
     String furniturePicture;
     Integer stock;
+    @JsonIgnore
+    Integer salesCount; // Champ pour stocker le nombre de ventes
+    @Transient
+    @JsonIgnore
+    private MultipartFile furnitureImage;
 
+    /*@JsonIgnore
+    @ManyToMany(mappedBy = "furnitures")
+    private List<Command>  commands;*/
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "furnitures")
+    @JsonIgnore
+    private List<Command> commands = new ArrayList<>();
 
-    //Les commandes lier a cet furniture
     @JsonIgnore
-    @OneToOne(mappedBy = "furniture")
-    private Command command;
-    //l'utilisateur owner du furniture
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
+    private Discount discount;
     @JsonIgnore
-    @OneToMany
-            (cascade = CascadeType.ALL, mappedBy="furniture")
-    private List<Discount> discounts;
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
     private User user;
+
 
 }

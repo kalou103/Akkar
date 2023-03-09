@@ -17,6 +17,12 @@ public class DiscountRestController {
     @ResponseBody
     public void addDiscount(Discount discount) {
         discountService.addDiscount(discount);}
+    @PutMapping("/assignDiscountToFurniture/{discountId}/{furnitureId}")
+    @ResponseBody
+    public void  assignDiscountToFurniture(@PathVariable("discountId") Long discountId,@PathVariable("furnitureId") Long furnitureId) {
+        discountService.assignDiscountToFurniture(discountId,furnitureId);
+
+    }
 
     @GetMapping("/getAlldiscounts")
     public List<Discount> getDiscounts() {
@@ -33,4 +39,17 @@ public class DiscountRestController {
         Discount discount= discountService.updateDiscount(d);
         return discount;
     }
+    @PostMapping("/{discountId}/furnitures")
+    public Discount addDiscountToFurnitures(@PathVariable Long discountId, @RequestBody List<Long> furnitureId) {
+        return discountService.addDiscountToMultipleFurnitures(discountId, furnitureId);
+    }
+    /*@GetMapping("/furniture")
+    public List<FurnitureDiscountDTO> getFurnitureDiscountList() {
+        return discountService.getFurnitureDiscountList();
+    }*/
+    /*@GetMapping("/discounted-furniture")
+    public List<FurnitureDiscountDTO> getFurnitureDiscountList() {
+        return discountService.getFurnitureDiscountList();
+    }*/
+
 }

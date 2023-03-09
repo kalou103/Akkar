@@ -6,7 +6,7 @@ package com.example.akkar2.services;
         import java.util.List;
 
 public interface IReclamationService {
-    Reclamation addReclamation(Reclamation r);
+    String addReclamation(Reclamation r,Long userid);
 
     List<Reclamation> retrieveAllReclamations();
 

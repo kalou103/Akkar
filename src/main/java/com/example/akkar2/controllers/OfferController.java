@@ -37,8 +37,8 @@ public class OfferController {
         return offerService.getOfferById(id);
     }
 
-    @PostMapping("/{driverId}")
-    public Offer addOffer(@PathVariable Long driverId, @RequestBody Offer offer) {
+    @PostMapping("add/{driverId}")
+    public Offer addOffer(@PathVariable("driverId") Long driverId, @RequestBody Offer offer) {
         return offerService.addOffer(driverId, offer);
     }
 

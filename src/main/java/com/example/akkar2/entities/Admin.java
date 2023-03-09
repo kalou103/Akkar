@@ -1,9 +1,10 @@
 package com.example.akkar2.entities;
 
-import javax.persistence.*;
-
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Entity

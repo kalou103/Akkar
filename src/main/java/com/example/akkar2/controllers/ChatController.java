@@ -34,7 +34,7 @@ public class ChatController {
     @PostMapping("/chat/sendMessage")
     @ResponseBody
     public void sendMessage(@RequestBody ChatMessage chatMessage) {
-        User user=userRepository.findById(Math.toIntExact(chatMessage.getRecipientId()));
+        User user=userRepository.findUserById((long) Math.toIntExact(chatMessage.getRecipientId()));
 
         chatMessageService.save(chatMessage);
         messagingTemplate.convertAndSendToUser(user.getEmail(), "/queue/messages", chatMessage);

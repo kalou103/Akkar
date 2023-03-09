@@ -62,9 +62,9 @@ public class PdfGeneratorOffer {
             // Adding student id
             table.addCell(String.valueOf(offer.getId()));
             // Adding student name
-            table.addCell(offer.getStartLocation());
+          //  table.addCell(offer.getStartLocation());
             // Adding student email
-            table.addCell(offer.getEndLocation());
+           // table.addCell(offer.getEndLocation());
             // Adding student mobile
             table.addCell(offer.getDriver().getFirstname());
         }

@@ -1,13 +1,10 @@
 package com.example.akkar2.entities;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 @Entity
@@ -35,29 +32,13 @@ public class TransportationDemand implements Serializable {
     @Enumerated(EnumType.STRING)
     private TransportationType transportationtype;
 
-    // New fields for Linear Regression
-    private double weight;
-    private double height;
-    private double width;
-    private String deliveryCity;
-    private String pickupCity;
-    private String vehicleType;
-    private double distance;
-
-    private double price;
-
-    private Date pickupDate;
     @ManyToOne
-    @JsonIgnore
     private Driver driver; //driver twali mech User
 
     @ManyToOne
-    @JsonIgnore
     Client client;
-
-  /* @OneToMany(mappedBy = "transportationDemand")
-    private List<Offer> offers;*/
-
-
+   /* @OneToMany(mappedBy = "transportationdemand")
+    private List<Offer> offers; */
+    //offre bech tetnaha
 
 }

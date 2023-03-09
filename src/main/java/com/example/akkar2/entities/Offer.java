@@ -1,10 +1,12 @@
 package com.example.akkar2.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -17,15 +19,36 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Date dateTransportation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
-    private Driver driver;
-
-    private String startLocation;
-    private String endLocation;
+    //private String startLocation; offer client (driver)
+    //private String endLocation;offer client (driver)
     private double price;
     private LocalDateTime dateTime;
+    @Enumerated(EnumType.STRING)
+    private  TransportationArea transportationArea;
+    @Enumerated(EnumType.STRING)
+    private TransportationType transportationtype;
+    @Enumerated(EnumType.STRING)
+    private DriverLocation driverLocation;
+    // New fields for Linear Regression
+    @Transient
+    //transportationArea
+    private String deliveryCity;
+    @Transient
+
+    private String pickupCity;
+    @Transient
+    private String vehicleType;
+    @Transient
+    private double distance;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
+    @JsonIgnore
+    private Driver driver;
+
+   // @ManyToOne
+  //  private TransportationDemand transportationDemand;
 
     // Constructor, getters, and setters
 

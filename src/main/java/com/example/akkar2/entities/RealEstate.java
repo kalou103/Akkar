@@ -1,9 +1,9 @@
 package com.example.akkar2.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,13 +22,17 @@ public class RealEstate implements Serializable {
     @Column(nullable = false)
     private String location;
     @Lob
-    @Column(nullable = false)
+    @JsonIgnore
+    @Column(nullable = true)
     private byte[] pictures;
 // A verifier le type des images
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RealEstateType type;
-
+    @Column(nullable = true)
+    private double PricePerNight;
+    @Column(nullable = true)
+    private Integer NumberOfResidents;
     @Column(nullable = false)
     private  String services;
     @Column(nullable = false)

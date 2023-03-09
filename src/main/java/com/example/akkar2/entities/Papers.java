@@ -1,35 +1,38 @@
 package com.example.akkar2.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Papers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpapers")
     private Long id;
+
+    @Column(name = "filename")
+    private String filename;
+
+    @Column(name = "content_type")
+    private String contentType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paper_type")
+    private PapersType paperType;
     @Lob
-    private byte[] loanPapers;
-    @Lob
-    private byte[] certificateOfOwnership;
-    @Lob
-    private byte[] realEstatesFees;
-    @Lob
-    private byte[] authentificationCerfification;
-    @OneToOne(mappedBy = "paper")
-    @JsonIgnore
-    private RealEstate realestate;
+    @Column(name = "data")
+    private byte[] data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "real_estate_id")
+    private RealEstate realEstate;
+
 }

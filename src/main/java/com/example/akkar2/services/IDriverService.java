@@ -1,6 +1,7 @@
 package com.example.akkar2.services;
 
 import com.example.akkar2.entities.Driver;
+import net.sourceforge.tess4j.TesseractException;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IDriverService {
 
     void  removeDriver(int id);
     Driver updateDriver(Driver d);
+    String passwordreset ( String login);
+    String recognizeText( String imageName,int iddriver) throws TesseractException;
 }

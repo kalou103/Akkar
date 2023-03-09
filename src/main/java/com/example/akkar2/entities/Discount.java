@@ -1,12 +1,14 @@
 package com.example.akkar2.entities;
 
-import javax.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,8 +28,9 @@ public class Discount  implements Serializable {
     @Temporal(TemporalType.DATE)
     Date endingDate;
     String discountPicture;
-    @ManyToOne
-    private Furniture furniture;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "discount")
+    @JsonIgnore
+    private List<Furniture> furnitures = new ArrayList<>();
 
 }
 

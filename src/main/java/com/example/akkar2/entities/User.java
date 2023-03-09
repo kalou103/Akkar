@@ -1,14 +1,13 @@
 package com.example.akkar2.entities;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -28,8 +27,8 @@ public abstract class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "iduser")
-	private int id;
+	@Column(name = "id")
+	private Long id;
 	
 	@Column(nullable = false)
 	private String firstname ;
@@ -45,31 +44,22 @@ public abstract class User implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Sexe sexe;
 	
-	@Column(nullable = false)
+	@Column(nullable = false,unique = true)
 	private String email ; 
 
 	
 	@Column(nullable = false)
 	private String password ; 
 
-
-
-    private Boolean banned;
-
-	// For Admin Only
-
-
-	// For Expert Only
-
-
-	// For Driver
-
-
-	// Relations with Other Entities 
-
-
-
-
+	@JsonIgnore
+	private LocalDate CreateAt= LocalDate.now();
+	@JsonIgnore
+	private Boolean banned=Boolean.FALSE;
+	@Transient
+	@JsonIgnore
+	public String getDecriminatorValue() {
+		return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+	}
 
 
 	//command
@@ -85,13 +75,17 @@ public abstract class User implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnore
 	private List<Furniture> furniture;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+	@OneToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "postId", referencedColumnName = "postId")
 	@JsonIgnore
-	private List<Post> posts;
+	private Post post;
+
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	@JsonIgnore
 	private List<Comment> comment;
+
+
+
 
 }
