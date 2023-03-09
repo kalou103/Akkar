@@ -19,8 +19,8 @@ import java.util.List;
 
 public class Driver extends User implements Serializable {
 
-    // Basic For All users
-
+    @Column
+    private boolean status = Boolean.FALSE;
     @Column(nullable = false)
     private int phoneNumber;
 

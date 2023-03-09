@@ -1,14 +1,13 @@
 package com.example.akkar2.entities;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -23,57 +22,46 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @DiscriminatorColumn(name="user_type")
 public abstract class User implements Serializable{
 
-	
-	// Basic For All users 
+
+	// Basic For All users
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "iduser")
 	private int id;
-	
+
 	@Column(nullable = false)
 	private String firstname ;
-	
+
 	@Column(nullable = false)
-	private String lastname ; 
-	
+	private String lastname ;
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date birthday ;
-	
+
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Sexe sexe;
-	
+
+	@Column(nullable = false,unique = true)
+	private String email ;
+
+
 	@Column(nullable = false)
-	private String email ; 
+	private String password ;
+	@JsonIgnore
+	private LocalDate CreateAt= LocalDate.now();
 
-	
-	@Column(nullable = false)
-	private String password ; 
-
-
-
-    private Boolean banned;
-
-	// For Admin Only
-
-
-	// For Expert Only
-
-
-	// For Driver
-
-
-	// Relations with Other Entities 
-
-
-
-
-
+	@JsonIgnore
+	private Boolean banned=Boolean.FALSE;
+	@Transient
+	public String getDecriminatorValue() {
+		return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+	}
 
 	//command
-    @OneToMany(mappedBy ="user")
+	@OneToMany(mappedBy ="user")
 	@JsonIgnore
 	private List<Command> command;
 

@@ -1,44 +1,49 @@
 package com.example.akkar2.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.example.akkar2.entities.Expert;
-import com.example.akkar2.services.IExpertService;
+import com.example.akkar2.services.ExpertService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import net.sourceforge.tess4j.TesseractException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/Expert")
+@SecurityRequirement(name = "bearerAuth")
 public class ExpertController {
     @Autowired
-    IExpertService ExpertService;
-    @PostMapping("/add-Expert")
+    ExpertService ExpertService;
+    @PostMapping
+    public ResponseEntity<?> addExpert(@RequestBody Expert expert) {
+
+        return ExpertService.AddExpert(expert);
+    }
+    @GetMapping
+    public List<Expert> getAllExperts() {
+        return ExpertService.ShowAllExperts();
+    }
+    @DeleteMapping("/{expertId}")
     @ResponseBody
-    public Expert AddUser(@RequestBody Expert e)
+    public void DeleteExpertById(@PathVariable int expertId)
     {
+        ExpertService.DeleteExpertById(expertId);
+    }
+    @PutMapping("/update-Expert")
+    @ResponseBody
+    public Expert updateExpert(@RequestBody Expert c) {
+        Expert contrat =ExpertService.updateExpert(c);
+        return contrat;
+    }
+    @PostMapping("/passwordreset")
+    public String passwordreset (@PathVariable("login") String login){
+        return  ExpertService.passwordreset(login);
+    }
+    @PostMapping("/ocrExpert")
+    public String recognizeText(@RequestParam("imageName") String imageName,@RequestParam("id") int idexpert) throws TesseractException {
+        return ExpertService.recognizeText(imageName, idexpert);
+    }
 
-        Expert Expert = ExpertService.addUser(e);
-
-        return Expert;
-    }
-    @GetMapping("/retrieveAllExpert")
-    @ResponseBody
-    public List<Expert> retrieveAllExpert() {
-        return ExpertService.retrieveAllExpert();
-    }
-    @GetMapping("/retrieve-Expert/{expertid}")
-    @ResponseBody
-    public Expert retrieveExpert(@PathVariable("expertid")int id) {
-        return  ExpertService.retrieveExpert(id);
-    }
-    @DeleteMapping("/delete-Expert/{Expertid}")
-    @ResponseBody
-    public void removeExpert(@PathVariable("Expertid")int id) {
-        ExpertService.removeExepert(id);
-    }
-    @PutMapping("/modify-Expert")
-    @ResponseBody
-    public Expert modifyClient(@RequestBody Expert expert) {
-        return ExpertService.updateExpert(expert);
-    }
 }

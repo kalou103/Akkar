@@ -1,27 +1,47 @@
 package com.example.akkar2.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.example.akkar2.entities.ConfirmationToken;
 import com.example.akkar2.entities.Driver;
+import com.example.akkar2.entities.User;
+import com.example.akkar2.repository.ConfirmationTokenRepository;
 import com.example.akkar2.repository.DriverRepository;
+import com.example.akkar2.repository.UserRepository;
+import com.example.akkar2.services.EmailSenderService;
 import com.example.akkar2.services.IDriverService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/Driver")
+@SecurityRequirement(name = "bearerAuth")
 public class DriverController {
+
     @Autowired
     IDriverService DriverService;
     @Autowired
-    private DriverRepository driverRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+
 
     @PostMapping("/add-Driver")
     @ResponseBody
-    public Driver AddAdmin(@RequestBody Driver driver)
+    public void Adddriver(@RequestBody Driver driver)
     {
-        return DriverService.addDriver(driver);
+
+        Driver user= DriverService.addDriver(driver);
     }
+
+
     @GetMapping("/retrieveAllDriver")
     @ResponseBody
     public List<Driver> retrieveAllDriver() {
@@ -41,5 +61,19 @@ public class DriverController {
     @ResponseBody
     public Driver modifyClient(@RequestBody Driver driver) {
         return DriverService.updateDriver(driver);
+    }
+    @PostMapping("/passwordreset/{login}")
+    public String passwordreset (@PathVariable("login") String login) {
+        return    DriverService.passwordreset(login);
+    }
+
+
+
+
+    @PostMapping("/ocrDriver")
+    public String recognizeText(@RequestParam("imageName") String imageName,@RequestParam("id") int iddriver) throws TesseractException {
+        return DriverService.recognizeText(imageName,iddriver);
+
+
     }
 }
